@@ -26,6 +26,12 @@ bot.on('message', function(event) {
     });
   }
 });
+setTimeout(function(){
+    var userId = 'Ä¬¬f¥à';
+    var sendMsg = '§A¦n«Ó';
+    bot.push(userId,sendMsg);
+    console.log('send: '+sendMsg);
+},1000);
 
 const app = express();
 const linebotParser = bot.parser();

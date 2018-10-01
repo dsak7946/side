@@ -1,7 +1,8 @@
 var linebot = require('linebot');
 var express = require('express');
 var path = require('path');
- 
+var { google } = require("googleapis")
+
 var bot = linebot({
     channelId: '1611184250',
     channelSecret: 'fc0dde92ef9e9b182bc526a240c18346',
@@ -24,12 +25,7 @@ bot.on('message', function(event) {
       // 傳送訊息失敗時，可在此寫程式碼 
       console.log('錯誤產生，錯誤碼：'+error);
     });
-	setTimeout(function(){
-    var userId = '使用者 ID';
-    var sendMsg = '哈摟您好';
-    bot.push(userId,sendMsg);
-    console.log('send: '+sendMsg);
-},1000);
+	
   }
 });
 

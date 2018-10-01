@@ -24,14 +24,15 @@ bot.on('message', function(event) {
       // 傳送訊息失敗時，可在此寫程式碼 
       console.log('錯誤產生，錯誤碼：'+error);
     });
-  }
-});
-setTimeout(function(){
+	setTimeout(function(){
     var userId = '使用者 ID';
     var sendMsg = '哈摟您好';
     bot.push(userId,sendMsg);
     console.log('send: '+sendMsg);
 },1000);
+  }
+});
+
 
 const app = express();
 const linebotParser = bot.parser();

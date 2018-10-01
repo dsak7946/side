@@ -9,8 +9,8 @@ var bot = linebot({
 	});
  
 var message = {
-    "你好":"我不好啦",
-    "你是誰":"我是酷八"
+    "你好":"我不好",
+    "你是誰":"我是ㄐ器人"
 };
  
 bot.on('message', function (event) {

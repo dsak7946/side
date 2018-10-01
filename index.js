@@ -27,8 +27,8 @@ bot.on('message', function(event) {
   }
 });
 setTimeout(function(){
-    var userId = '蘇柏丞';
-    var sendMsg = '你好帥';
+    var userId = '使用者 ID';
+    var sendMsg = '哈摟您好';
     bot.push(userId,sendMsg);
     console.log('send: '+sendMsg);
 },1000);

@@ -13,17 +13,20 @@ var message = {
     "你是誰":"我是ㄐ器人"
 };
  
-bot.on('message', function (event) {
-    var respone;
-    if(message[event.message.text]){
-        respone = message[event.message.text];
-    }else{
-        respone = '我不懂你說的 ['+event.message.text+']';
-    }
-    console.log(event.message.text + ' -> ' + respone);
-    bot.reply(event.replyToken, respone);
+bot.on('message', function(event) {
+  if (event.message.type = 'text') {
+    var msg = event.message.text;
+  //收到文字訊息時，直接把收到的訊息傳回去
+    event.reply(msg).then(function(data) {
+      // 傳送訊息成功時，可在此寫程式碼 
+      console.log(msg);
+    }).catch(function(error) {
+      // 傳送訊息失敗時，可在此寫程式碼 
+      console.log('錯誤產生，錯誤碼：'+error);
+    });
+  }
 });
- 
+
 const app = express();
 const linebotParser = bot.parser();
 app.post('/', linebotParser);

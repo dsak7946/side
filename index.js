@@ -11,7 +11,7 @@ var bot = linebot({
 	});
  
 //底下輸入client_secret.json檔案的內容
-var myClientSecret="installed":{"client_id":"583651028506-fvmng0ph5iesllm8jifa3s7j0lorvvof.apps.googleusercontent.com","project_id":"coral-smoke-218120","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://www.googleapis.com/oauth2/v3/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"gBtSIM6stlySHqzQIbVXuMFI","redirect_uris":["urn:ietf:wg:oauth:2.0:oob","http://localhost"]}
+var myClientSecret="installed":{"client_id":"583651028506-fvmng0ph5iesllm8jifa3s7j0lorvvof.apps.googleusercontent.com","project_id":"coral-smoke-218120","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://www.googleapis.com/oauth2/v3/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"gBtSIM6stlySHqzQIbVXuMFI","redirect_uris":"urn:ietf:wg:oauth:2.0:oob","http://localhost"}
 
 var auth = new googleAuth();
 var oauth2Client = new auth.OAuth2(myClientSecret.installed.client_id,myClientSecret.installed.client_secret, myClientSecret.installed.redirect_uris[0]);

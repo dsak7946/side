@@ -1,4 +1,4 @@
-//以下的四列require裡的內容，請確認是否已經用npm裝進node.js
+
 var linebot = require('linebot');
 var express = require('express');
 var google = require('googleapis');
@@ -89,7 +89,7 @@ bot.on('message', function(event) {
       }
       var myStep=users[myId].step;
       if (myStep===-1)
-         sendMessage(event,myQuestions[0][0]);
+         sendMessage(event,myQuestions[0][1]);
       else{
          if (myStep==(totalSteps-1))
             sendMessage(event,myQuestions[1][myStep]);
@@ -106,6 +106,7 @@ bot.on('message', function(event) {
          appendMyRow(myId);
       }
    }
+
 });
 
 //這是發送訊息給user的函式

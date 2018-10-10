@@ -89,7 +89,7 @@ bot.on('message', function(event) {
       }
 	  else
 	  {
-		  var smsg = ";
+		  var smsg = '';
 		  smsg = '請輸入正確的答覆';
 	  }
 		  

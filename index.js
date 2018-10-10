@@ -10,18 +10,8 @@ var bot = linebot({
     channelAccessToken: 'fo/507dPjAsjw/gAjXcas2aKo94L9l5QOLrDqTkQ6fcsy5lDv4uRGAGHd0ck8DAumYuGVRYO9pNMJXWrcohw/2KnyeD0XJ1y2fW7fdgfpzmd5ChC5KuAV9REP9kFNlFubCii5jKuSVY81oDn3KTvRwdB04t89/1O/w1cDnyilFU='
 	});
  
+//這一段的程式是專門處理當有人傳送文字訊息給LineBot時，我們的處理回應
 bot.on('message', function(event) {
-  if (event.message.type = 'text') {
-    var msg = event.message.text;
-    event.reply(msg).then(function(data) {
-      // success 
-      console.log(msg);
-    }).catch(function(error) {
-      // error 
-      console.log('error');
-    });
-  }
-});bot.on('message', function(event) {
   if (event.message.type = 'text') {
     var msg = event.message.text;
   //收到文字訊息時，直接把收到的訊息傳回去
@@ -34,7 +24,6 @@ bot.on('message', function(event) {
     });
   }
 });
-
 
 const app = express();
 const linebotParser = bot.parser();

@@ -40,7 +40,7 @@ function getQuestions() {
      range:encodeURI('q'),
   }, function(err, response) {
      if (err) {
-        console.log('讀取問題檔的API產生問題：' + err);
+        console.log('load API q：' + err);
         return;
      }
 	 var rows = response.values;
@@ -49,7 +49,7 @@ function getQuestions() {
      } else {
        myQuestions=rows;
        totalSteps=myQuestions[0].length;
-       console.log('要問的問題已下載完畢！');
+       console.log('is compile！');
      }
   });
 }

@@ -87,12 +87,6 @@ bot.on('message', function(event) {
          users[myId].step=-1;
          users[myId].replies=[];
       }
-	  else
-	  {
-		  var smsg = '';
-		  smsg = '請輸入正確的答覆';
-	  }
-		  
       var myStep=users[myId].step;
       if (myStep===-1)
          sendMessage(event,myQuestions[0][0]);
@@ -102,6 +96,7 @@ bot.on('message', function(event) {
          else
             sendMessage(event,myQuestions[1][myStep]+'\n'+myQuestions[0][myStep+1]);
          users[myId].replies[myStep+1]=event.message.text;
+      }
       myStep++;
       users[myId].step=myStep;
       if (myStep>=totalSteps){
@@ -111,8 +106,8 @@ bot.on('message', function(event) {
          appendMyRow(myId);
       }
    }
-
 });
+
 
 //這是發送訊息給user的函式
 function sendMessage(eve,msg){

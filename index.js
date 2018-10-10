@@ -37,7 +37,7 @@ function getQuestions() {
   sheets.spreadsheets.values.get({
      auth: oauth2Client,
      spreadsheetId: mySheetId,
-     range:encodeURI('問題'),
+     range:encodeURI('q'),
   }, function(err, response) {
      if (err) {
         console.log('讀取問題檔的API產生問題：' + err);

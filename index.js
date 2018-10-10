@@ -79,9 +79,9 @@ function appendMyRow(userId) {
 
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function(event) {
-   if (event.message.type === 'text') {
+   if (event.message.type === 'text') 
       var myId=event.source.userId;
-      if (users[myId]==undefined){
+      if (users[myId]==undefined)
          users[myId]=[];
          users[myId].userId=myId;
          users[myId].step=-1;
@@ -90,7 +90,7 @@ bot.on('message', function(event) {
 	{
 		sendMessage("這不是我問的問題喔")
 	}		
-	  }
+	  
       var myStep=users[myId].step;
       if (myStep===-1)
          sendMessage(event,myQuestions[0][0]);

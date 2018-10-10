@@ -10,7 +10,6 @@ var TOKEN_DIR = './';
 var TOKEN_PATH = TOKEN_DIR + 'sheetsapi.json';
 
 // Load client secrets from a local file.
- var fs = require('fs');
 fs.readFile('client_secret.json', function processClientSecrets(err, content) {
   if (err) {
     console.log('Error loading client secret file: ' + err);
@@ -91,7 +90,7 @@ function storeToken(token) {
       throw err;
     }
   }
- fs.writeFile(TOKEN_PATH, JSON.stringify(token));
+  fs.writeFileSync(TOKEN_PATH, JSON.stringify(token));
   console.log('Token stored to ' + TOKEN_PATH);
 }
 

@@ -17,10 +17,10 @@ var auth = new googleAuth();
 var oauth2Client = new auth.OAuth2(myClientSecret.installed.client_id,myClientSecret.installed.client_secret, myClientSecret.installed.redirect_uris[0]);
 
 //底下輸入sheetsapi.json檔案的內容
-oauth2Client.credentials ={"access_token":"ya29.GlsqBjYS4KILSI9k5ViN_y-IDRGV8rzsT_9SHU3EU9eM4ciQPKooVJPMo6RmmB_iGg3tZiduKNmwYho5uwQGIfHVRzl52sgeKlLJkHvKHag8ytLIZhKoEwzS70xa","refresh_token":"1/ebYF3Vpbjgv-1mcDwl8YqI7azXLZPcqK3cajm7tKWKiEQWHPENrYj6-A2K3vr1YU","scope":"https://www.googleapis.com/auth/spreadsheets","token_type":"Bearer","expiry_date":1538510289455}
+oauth2Client.credentials ={"access_token":"ya29.GlsyBqOC4eCB5NPDgl9nOYJhPLFGuJDJbMA2INQF9Umh-ZLYXWtb6QTFUGN-DdAxuQM5Bgi36IYLKV9IrNiMql1zWQcJYansuRGUagfTna5xBCckyXmXM2b5CgQo","refresh_token":"1/cSQDIaLXFErKVfdT2-DH0ADjMSIU1L2QKFfgLWZpnKk","scope":"https://www.googleapis.com/auth/spreadsheets","token_type":"Bearer","expiry_date":1539199944860}
 
 //試算表的ID，引號不能刪掉
-var mySheetId='1PKjYBeg1C85_24_oqs8We7gaT8Hx5j7xCR7QdlIXn54';
+var mySheetId='1xI2UxdRH0AJd2h5t0LcW66SjLOrZ3RiBcRMz1zEzd64';
 
 var myQuestions=[];
 var users=[];

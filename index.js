@@ -86,7 +86,11 @@ bot.on('message', function(event) {
          users[myId].userId=myId;
          users[myId].step=-1;
          users[myId].replies=[];
-      }
+    else
+	{
+		sendMessage("這不是我問的問題喔")
+	}		
+	  }
       var myStep=users[myId].step;
       if (myStep===-1)
          sendMessage(event,myQuestions[0][0]);
@@ -94,8 +98,7 @@ bot.on('message', function(event) {
          if (myStep==(totalSteps-1))
             sendMessage(event,myQuestions[1][myStep]);
          else
-            sendMessage(event,myQuestions[1][myStep]+'\n'+myQuestions[0][myStep+2]);
-		else
+            sendMessage(event,myQuestions[1][myStep]+'\n'+myQuestions[0][myStep+2]),
 			sendMessage(event,+myQuestions[0][myStep+2]);
          users[myId].replies[myStep+1]=event.message.text;
       }

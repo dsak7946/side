@@ -87,6 +87,12 @@ bot.on('message', function(event) {
          users[myId].step=-1;
          users[myId].replies=[];
       }
+	  else
+	  {
+		  var smsg = ";
+		  smsg = '請輸入正確的答覆';
+	  }
+		  
       var myStep=users[myId].step;
       if (myStep===-1)
          sendMessage(event,myQuestions[0][0]);

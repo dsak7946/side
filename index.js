@@ -109,7 +109,7 @@ bot.on('message', function(event) {
    else 
    {
 	  var message = "no real";
-};
+}
    }
 });
 

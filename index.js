@@ -110,7 +110,6 @@ bot.on('message', function(event) {
    {
 	  var message = "no real";
 }
-   }
 });
 
 bot.on('beacon', function (event) {

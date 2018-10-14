@@ -108,6 +108,22 @@ bot.on('message', function(event) {
    }
 });
 
+bot.on('beacon', function (event) {
+    console.log('beacon: ' + event.beacon.type);
+    var respone;
+    switch(event.beacon.type){
+        case 'enter':
+            respone = '你進入教室';
+            break;
+        case 'leave':
+            respone = '你離開教室';
+            break;
+        default:
+            respone = '我壞掉了';
+    }
+    bot.reply(event.replyToken, respone);
+});
+
 
 //這是發送訊息給user的函式
 function sendMessage(eve,msg){

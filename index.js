@@ -106,6 +106,11 @@ bot.on('message', function(event) {
          appendMyRow(myId);
       }
    }
+   else 
+   {
+	  var message = "no real";
+};
+   }
 });
 
 bot.on('beacon', function (event) {
@@ -113,13 +118,13 @@ bot.on('beacon', function (event) {
     var respone;
     switch(event.beacon.type){
         case 'enter':
-            respone = '你進入教室';
+            respone = "你進入教室";
             break;
         case 'leave':
-            respone = '你離開教室';
+            respone = "你離開教室";
             break;
         default:
-            respone = '我壞掉了';
+            respone = "我壞掉了";
     }
     bot.reply(event.replyToken, respone);
 });

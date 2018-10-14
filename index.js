@@ -1,8 +1,8 @@
-
 var linebot = require('linebot');
 var express = require('express');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
+var path = require('path');
 
 var bot = linebot({
     channelId: '1611184250',
@@ -49,7 +49,7 @@ function getQuestions() {
      } else {
        myQuestions=rows;
        totalSteps=myQuestions[0].length;
-       console.log('is compile！');
+       console.log('is compile');
      }
   });
 }
@@ -106,10 +106,6 @@ bot.on('message', function(event) {
          appendMyRow(myId);
       }
    }
-   else 
-   {
-	  var message = "no real";
-}
 });
 
 bot.on('beacon', function (event) {
@@ -117,13 +113,13 @@ bot.on('beacon', function (event) {
     var respone;
     switch(event.beacon.type){
         case 'enter':
-            respone = "你進入教室";
+            respone = '你進入教室';
             break;
         case 'leave':
-            respone = "你離開教室";
+            respone ='你離開教室';
             break;
         default:
-            respone = "我壞掉了";
+            respone = '我壞掉了';
     }
     bot.reply(event.replyToken, respone);
 });

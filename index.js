@@ -40,16 +40,16 @@ function getQuestions() {
      range:encodeURI('q'),
   }, function(err, response) {
      if (err) {
-        console.log('load API q：' + err);
+        console.log('讀取問題檔的API產生問題：' + err);
         return;
      }
-	 var rows = response.values;
+     var rows = response.values;
      if (rows.length == 0) {
         console.log('No data found.');
      } else {
        myQuestions=rows;
        totalSteps=myQuestions[0].length;
-       console.log('is compile');
+       console.log('要問的問題已下載完畢！');
      }
   });
 }
@@ -108,21 +108,6 @@ bot.on('message', function(event) {
    }
 });
 
-bot.on('beacon', function (event) {
-    console.log('beacon: ' + event.beacon.type);
-    var respone;
-    switch(event.beacon.type){
-        case 'enter':
-            respone = ' you in the classroom';
-            break;
-        case 'leave':
-            respone ='你離開教室';
-            break;
-        default:
-            respone = '我壞掉了';
-    }
-    bot.reply(event.replyToken, respone);
-});
 
 
 //這是發送訊息給user的函式
@@ -135,15 +120,12 @@ function sendMessage(eve,msg){
       return false;
    });
 }
-
-
-
-
 const app = express();
 const linebotParser = bot.parser();
 app.post('/', linebotParser);
 
+//因為 express 預設走 port 3000，而 heroku 上預設卻不是，要透過下列程式轉換
 var server = app.listen(process.env.PORT || 8080, function() {
   var port = server.address().port;
-  console.log('目前的port是', port);
+  console.log("App now running on port", port);
 });

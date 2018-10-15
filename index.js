@@ -9,17 +9,17 @@ var bot = linebot({
     channelSecret: 'fc0dde92ef9e9b182bc526a240c18346',
     channelAccessToken: 'fo/507dPjAsjw/gAjXcas2aKo94L9l5QOLrDqTkQ6fcsy5lDv4uRGAGHd0ck8DAumYuGVRYO9pNMJXWrcohw/2KnyeD0XJ1y2fW7fdgfpzmd5ChC5KuAV9REP9kFNlFubCii5jKuSVY81oDn3KTvRwdB04t89/1O/w1cDnyilFU='
 	});
-//åº•ä¸‹è¼¸å…¥client_secret.jsonæª”æ¡ˆçš„å…§å®¹
+//©³¤U¿é¤Jclient_secret.jsonÀÉ®×ªº¤º®e
 var myClientSecret={"installed":{"client_id":"583651028506-fvmng0ph5iesllm8jifa3s7j0lorvvof.apps.googleusercontent.com","project_id":"coral-smoke-218120","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://www.googleapis.com/oauth2/v3/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"gBtSIM6stlySHqzQIbVXuMFI","redirect_uris":["urn:ietf:wg:oauth:2.0:oob","http://localhost"]}}
 
 var auth = new googleAuth();
 var oauth2Client = new auth.OAuth2(myClientSecret.installed.client_id,myClientSecret.installed.client_secret, 
 myClientSecret.installed.redirect_uris[0]);
 
-//åº•ä¸‹è¼¸å…¥sheetsapi.jsonæª”æ¡ˆçš„å…§å®¹
+//©³¤U¿é¤Jsheetsapi.jsonÀÉ®×ªº¤º®e
 oauth2Client.credentials ={"access_token":"ya29.GlsyBqOC4eCB5NPDgl9nOYJhPLFGuJDJbMA2INQF9Umh-ZLYXWtb6QTFUGN-DdAxuQM5Bgi36IYLKV9IrNiMql1zWQcJYansuRGUagfTna5xBCckyXmXM2b5CgQo","refresh_token":"1/cSQDIaLXFErKVfdT2-DH0ADjMSIU1L2QKFfgLWZpnKk","scope":"https://www.googleapis.com/auth/spreadsheets","token_type":"Bearer","expiry_date":1539199944860}
 
-//è©¦ç®—è¡¨çš„IDï¼Œå¼•è™Ÿä¸èƒ½åˆªæ‰
+//¸ÕºâªíªºID¡A¤Ş¸¹¤£¯à§R±¼
 var mySheetId='1xI2UxdRH0AJd2h5t0LcW66SjLOrZ3RiBcRMz1zEzd64';
  
 var myQuestions=[];
@@ -27,11 +27,11 @@ var users=[];
 var totalSteps=0;
 var myReplies=[];
 
-//ç¨‹å¼å•Ÿå‹•å¾Œæœƒå»è®€å–è©¦ç®—è¡¨å…§çš„å•é¡Œ
+//µ{¦¡±Ò°Ê«á·|¥hÅª¨ú¸Õºâªí¤ºªº°İÃD
 getQuestions();
 
 
-//é€™æ˜¯è®€å–å•é¡Œçš„å‡½å¼
+//³o¬OÅª¨ú°İÃDªº¨ç¦¡
 function getQuestions() {
   var sheets = google.sheets('v4');
   sheets.spreadsheets.values.get({
@@ -40,21 +40,21 @@ function getQuestions() {
      range:encodeURI('q'),
   }, function(err, response) {
      if (err) {
-        console.log('è®€å–å•é¡Œæª”çš„APIç”¢ç”Ÿå•é¡Œï¼š' + err);
+        console.log('load API q¡G' + err);
         return;
      }
-     var rows = response.values;
+	 var rows = response.values;
      if (rows.length == 0) {
         console.log('No data found.');
      } else {
        myQuestions=rows;
        totalSteps=myQuestions[0].length;
-       console.log('è¦å•çš„å•é¡Œå·²ä¸‹è¼‰å®Œç•¢ï¼');
+       console.log('is compile');
      }
   });
 }
 
-//é€™æ˜¯å°‡å–å¾—çš„è³‡æ–™å„²å­˜é€²è©¦ç®—è¡¨çš„å‡½å¼
+//³o¬O±N¨ú±oªº¸ê®ÆÀx¦s¶i¸Õºâªíªº¨ç¦¡
 function appendMyRow(userId) {
    var request = {
       auth: oauth2Client,
@@ -77,7 +77,7 @@ function appendMyRow(userId) {
    });
 }
 
-//LineBotæ”¶åˆ°userçš„æ–‡å­—è¨Šæ¯æ™‚çš„è™•ç†å‡½å¼
+//LineBot¦¬¨ìuserªº¤å¦r°T®§®Éªº³B²z¨ç¦¡
 bot.on('message', function(event) {
    if (event.message.type === 'text') {
       var myId=event.source.userId;
@@ -108,7 +108,6 @@ bot.on('message', function(event) {
    }
 });
 
-
 bot.on('beacon', function (event) {
     console.log('beacon: ' + event.beacon.type);
     var respone;
@@ -117,16 +116,16 @@ bot.on('beacon', function (event) {
             respone = ' you in the classroom';
             break;
         case 'leave':
-            respone ='ä½ é›¢é–‹æ•™å®¤';
+            respone ='§AÂ÷¶}±Ğ«Ç';
             break;
         default:
-            respone = 'æˆ‘å£æ‰äº†';
+            respone = '§ÚÃa±¼¤F';
     }
     bot.reply(event.replyToken, respone);
 });
 
 
-//é€™æ˜¯ç™¼é€è¨Šæ¯çµ¦userçš„å‡½å¼
+//³o¬Oµo°e°T®§µ¹userªº¨ç¦¡
 function sendMessage(eve,msg){
    eve.reply(msg).then(function(data) {
       // success 
@@ -136,12 +135,15 @@ function sendMessage(eve,msg){
       return false;
    });
 }
+
+
+
+
 const app = express();
 const linebotParser = bot.parser();
 app.post('/', linebotParser);
 
-//å› ç‚º express é è¨­èµ° port 3000ï¼Œè€Œ heroku ä¸Šé è¨­å»ä¸æ˜¯ï¼Œè¦é€éä¸‹åˆ—ç¨‹å¼è½‰æ›
 var server = app.listen(process.env.PORT || 8080, function() {
   var port = server.address().port;
-  console.log("App now running on port", port);
+  console.log('¥Ø«eªºport¬O', port);
 });

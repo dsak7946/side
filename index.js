@@ -108,6 +108,7 @@ bot.on('message', function(event) {
    }
 });
 
+
 bot.on('beacon', function (event) {
     console.log('beacon: ' + event.beacon.type);
     var respone;
@@ -123,6 +124,12 @@ bot.on('beacon', function (event) {
     }
     bot.reply(event.replyToken, respone);
 });
+setTimeout(function(){
+    var userId = '使用者 ID';
+    var sendMsg = '要發送的文字';
+    bot.push(userId,sendMsg);
+    console.log('send: '+sendMsg);
+},5000);
 
 
 //這是發送訊息給user的函式

@@ -3,6 +3,10 @@ var express = require('express');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 var path = require('path');
+var iconv = require('iconv-lite');
+var fs = require('fs');
+var fileStr = fs.readFileSync('input.txt', {encoding:'binary'});
+var buf = new Buffer(fileStr, 'binary');
 
 var bot = linebot({
     channelId: '1611184250',

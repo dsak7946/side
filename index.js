@@ -49,7 +49,7 @@ function getQuestions() {
      } else {
        myQuestions=rows;
        totalSteps=myQuestions[0].length;
-       console.log('is compile');
+       console.log('您的問題已經下載完畢');
      }
   });
 }
@@ -79,7 +79,7 @@ function appendMyRow(userId) {
 
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function(event) {
-   if (event.message.type === 'text') {
+   if (event.message.type === '我要報名') {
       var myId=event.source.userId;
       if (users[myId]==undefined){
          users[myId]=[];
@@ -106,6 +106,7 @@ bot.on('message', function(event) {
          appendMyRow(myId);
       }
    }
+   
 });
 
 bot.on('beacon', function (event) {
@@ -113,13 +114,13 @@ bot.on('beacon', function (event) {
     var respone;
     switch(event.beacon.type){
         case 'enter':
-            respone = ' you in the classroom';
+            respone = '你進入教室了喔!!';
             break;
         case 'leave':
-            respone ='你離開教室';
+            respone ='你離開教室了';
             break;
         default:
-            respone = '我壞掉了';
+            respone = '我壞了';
     }
     bot.reply(event.replyToken, respone);
 });

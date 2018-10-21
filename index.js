@@ -27,6 +27,10 @@ var users=[];
 var totalSteps=0;
 var myReplies=[];
 
+var message = {
+    "你好":"我很帥",
+    "你是誰":"我是你巴巴"
+};
 //程式啟動後會去讀取試算表內的問題
 getQuestions();
 
@@ -79,7 +83,7 @@ function appendMyRow(userId) {
 
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function(event) {
-   if (event.message.type === '我要報名') {
+   if (event.message.length === '我要報名') {
       var myId=event.source.userId;
       if (users[myId]==undefined){
          users[myId]=[];

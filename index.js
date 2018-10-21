@@ -27,10 +27,6 @@ var users=[];
 var totalSteps=0;
 var myReplies=[];
 
-var message = {
-    "你好":"我很帥",
-    "你是誰":"我是你巴巴"
-};
 //程式啟動後會去讀取試算表內的問題
 getQuestions();
 
@@ -54,6 +50,7 @@ function getQuestions() {
        myQuestions=rows;
        totalSteps=myQuestions[0].length;
        console.log('您的問題已經下載完畢');
+	   console.log(typeof 我要報名);
      }
   });
 }
@@ -83,8 +80,7 @@ function appendMyRow(userId) {
 
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function(event) {
-   var message = new text('我要報名');
-   if (event.message.type === '我要報名') {
+   if (event.message.type === 'text') {
       var myId=event.source.userId;
       if (users[myId]==undefined){
          users[myId]=[];
@@ -111,7 +107,6 @@ bot.on('message', function(event) {
          appendMyRow(myId);
       }
    }
-   
 });
 
 bot.on('beacon', function (event) {

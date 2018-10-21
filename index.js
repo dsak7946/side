@@ -50,7 +50,7 @@ function getQuestions() {
        myQuestions=rows;
        totalSteps=myQuestions[0].length;
        console.log('您的問題已經下載完畢');
-	   console.log(typeof '我要報名');
+	   console.log(typeof 'text');
      }
   });
 }

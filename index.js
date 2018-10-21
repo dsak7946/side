@@ -49,7 +49,7 @@ function getQuestions() {
      } else {
        myQuestions=rows;
        totalSteps=myQuestions[0].length;
-       console.log('要問的問題已下載好了喔!!!');
+       console.log('is compile');
      }
   });
 }
@@ -113,7 +113,7 @@ bot.on('beacon', function (event) {
     var respone;
     switch(event.beacon.type){
         case 'enter':
-            respone = ' 你進入了教室';
+            respone = ' you in the classroom';
             break;
         case 'leave':
             respone ='你離開教室';

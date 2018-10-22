@@ -85,7 +85,7 @@ function appendMyRow(userId) {
 bot.on('message', function(event) {
 	
    if (event.message.text == '我要報名') {
-	   let i = myStep;
+	   let i = 0;
 	   while(i<=10){
       var myId=event.source.userId;
       if (users[myId]==undefined){

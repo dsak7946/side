@@ -83,7 +83,7 @@ function appendMyRow(userId) {
 
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function(event) {
-	let msg = '我要報名';
+	let msg = String(我要報名);
    if (event.message.type === 'text') {
       var myId=event.source.userId;
       if (users[myId]==undefined){
@@ -286,5 +286,5 @@ app.post('/', linebotParser);
 var server = app.listen(process.env.PORT || 8080, function() {
   var port = server.address().port;
   console.log('目前的port是', port);
-  console.log(typeof('text'));
+  console.log(typeof(msg));
 });

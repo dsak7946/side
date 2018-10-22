@@ -112,7 +112,7 @@ bot.on('message', function(event) {
          users[myId].replies[0]=new Date();
          appendMyRow(myId);
       }
-	  if(i=myStep) break;
+	  if(i=totalSteps) break;
 	  i=i+1;
   }
 }

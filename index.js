@@ -85,6 +85,7 @@ function appendMyRow(userId) {
 bot.on('message', function(event) {
 	let msg = String('我要報名');
    if (event.message.text == '我要報名') {
+	   if(event.message.type == 'text'){
       var myId=event.source.userId;
       if (users[myId]==undefined){
          users[myId]=[];
@@ -111,6 +112,7 @@ bot.on('message', function(event) {
          appendMyRow(myId);
       }
    }
+}
 	let requestMessage = event.message.text;
     if (requestMessage.indexOf("綁定") >= 0) {
         let bindId = requestMessage.replace("綁定", "");

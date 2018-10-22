@@ -280,9 +280,6 @@ function sendMessage(eve,msg){
 }
 
 
-
-
-const app = express();
 const linebotParser = bot.parser();
 app.post('/', linebotParser);
 

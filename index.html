@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html ng-app="app">
+    <head>
+        <title>HOME</title>
+        <meta Http-Equiv='Cache-Control' Content='no-cache' />
+        <meta Http-Equiv='Pragma' Content='no-cache' />
+        <meta Http-Equiv='Expires' Content='0' />
+        <meta Http-Equiv='Pragma-directive: no-cache' />
+        <meta Http-Equiv='Cache-directive: no-cache' /> 
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        function fail(e) {
+            alert("failure message: " + e);
+        }
+        function find(arr, s, v) {
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i][s] === v) {
+                    return [arr[i], i];
+                }
+            }
+            return null;
+        }
+        function copyToClipboard(txt) {
+            var clip_area = document.createElement('textarea');
+            clip_area.textContent = txt;
+            document.body.appendChild(clip_area);
+            clip_area.select();
+            document.execCommand('copy');
+            clip_area.remove();
+        }
+        var App = angular.module('app', []);
+        App.factory('socket', function($rootScope) {
+            var socket = io.connect();
+            return {
+                on: function(eventName, callback) {
+                    socket.on(eventName, function() {
+                        var args = arguments;
+                        $rootScope.$apply(function() {
+                            callback.apply(socket, args);
+                        });
+                    });
+                },
+                emit: function(eventName, data, callback) {
+                    socket.emit(eventName, data, function() {
+                        var args = arguments;
+                        $rootScope.$apply(function() {
+                            if(callback) {
+                                callback.apply(socket, args);
+                            }
+                        });
+                    })
+                }
+            };
+        });
+        App.controller('main_content', function ($scope) {
+            $scope.onlineContent = false;
+            $scope.settingContent = true;
+        });
+        App.controller('setting_content', function ($scope, $http, socket) {
+            $scope.users = [];
+            socket.on('user', function (msg) {
+                // console.log("message: " + msg);
+                var json = JSON.parse(msg);
+                switch (json.TYPE) {
+                    case "UPDATE_USER":
+                        $scope.queryAll();
+                        break;
+                }
+            })
+            $scope.queryAll = function () {
+                $http.post('/data', {TYPE: "QUERY"}).then(function (res) {
+                    var cnt = 0;
+                    res.data.forEach(function (e) {
+                        if (cnt % 2 === 0) {
+                            e['BACKGROUND'] = 'aqua';
+                        } else {
+                            e['BACKGROUND'] = 'none';
+                        }
+                        cnt++;
+                    });
+                    // console.log(res.data);
+                    $scope.users = res.data;
+                }, fail);
+            };
+            $scope.addUser = function () {
+                var name = $scope.INPUT_NAME;
+                var number = $scope.INPUT_NUMBER;
+                var password = $scope.INPUT_PASSWORD;
+                if (!(name && number && password)) {
+                    return;
+                }
+                var sendData = {TYPE: "ADD", DATA: {NAME: name, NUMBER: number, PASSWORD: password}};
+                $http.post('/data', sendData).then(function (res) {
+                    $scope.INPUT_NAME = '';
+                    $scope.INPUT_NUMBER = '';
+                    $scope.INPUT_PASSWORD = '';
+                    $scope.queryAll();
+                }, fail);
+            };
+            $scope.copy = function (user) {
+                copyToClipboard(user.BIND);
+            };
+            $scope.delUser = function (user) {
+                // console.log("DEL : " + JSON.stringify(user));
+                var sendData = {TYPE: "REMOVE", USER: user};
+                $http.post('/data', sendData).then(function (res) {
+                    $scope.queryAll();
+                }, fail);
+            };
+        });
+        App.controller('online_content', function ($scope,$http, socket) {
+            $scope.joinList = [];
+            $scope.unknowjoinList = [];
+            $http.post('/data', {TYPE: "ONLINE"}).then(function (res) {
+                joinList = res.data.JL;
+                unknowjoinList = res.data.UK;
+                $scope.joinList = joinList;
+                $scope.unknowjoinList = unknowjoinList;
+            }, fail);
+            socket.on('online', function (msg) {
+                // console.log("message: " + msg);
+                var json = JSON.parse(msg);
+                switch (json.TYPE) {
+                    case "ADD":
+                        // console.log("UNKNOWN : " + json.UNKNOWN);
+                        if (json.UNKNOWN) {
+                            if(!find($scope.unknowjoinList,"LINEID",json.DATALINEID)){
+                                $scope.unknowjoinList.push(json.DATA);
+                            }
+                        } else {
+                            if(!find($scope.joinList,"LINEID",json.DATALINEID)){
+                                $scope.joinList.push(json.DATA);
+                            }
+                        }
+                        break;
+                    case "REMOVE":
+                        var unknowjoinList = $scope.unknowjoinList;
+                        var joinList = $scope.joinList;
+                        var data = find(unknowjoinList, "LINEID", json.LINEID);
+                        // console.log("ujl : " + !!data);
+                        if (data) {
+                            unknowjoinList.splice(data[1], 1);
+                        }
+                        data = find(joinList, "LINEID", json.LINEID);
+                        // console.log("jl : " + !!data);
+                        if (data) {
+                            joinList.splice(data[1], 1);
+                        }
+                        $scope.joinList = joinList;
+                        $scope.unknowjoinList = unknowjoinList;
+                        break;
+                }
+            });
+//            $scope.joinList = [{LINEID:'AAA',NAME:'NAME',NUMBER:'123456'}];
+//            $scope.unknowjoinList = [{LINEID:'BBB',NAME:'NAME'}];
+        });
+    </script>
+    <style>
+        body{
+            text-align: center;
+            -moz-user-select : none;
+            -webkit-user-select: none;
+            font-weight: bold;
+        }
+        .main_content{
+            width: 800px;
+            height: 600px;
+            margin:0 auto;
+            border:2px solid #DA8644;
+        }     
+        .main_button{
+            float: left; 
+            width: 50%; 
+            height: 100%; 
+            font-size: 20px; 
+            font-weight: bold;
+            border-radius: 20px;
+        }
+        .scrollbar::-webkit-scrollbar-track{
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            background-color: #162640;
+            border: 1px solid #DA8644;
+        }
+        .scrollbar::-webkit-scrollbar{
+            width: 5px;
+            height: 10px;
+            background-color: #F5F5F5;
+        }
+        .scrollbar::-webkit-scrollbar-thumb{
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+            background: #DEC699; /* Old browsers */
+            background: -moz-linear-gradient(top, #DEC699 0%, #9C8557 50%, #DEC699 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, #DEC699 0%, #9C8557 50%, #DEC699 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, #DEC699 0%, #9C8557 50%, #DEC699 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#DEC699', endColorstr='#9C8557',GradientType=0 ); /* IE6-9 */
+        }
+    </style>
+    <style>
+        .setting_user_item_title div{
+            float: left; 
+            height: 100%; 
+            width: calc(19% - 3px); 
+            border-right: 2px solid #DA8644; 
+            text-align: center; 
+            line-height: 23px;
+        }
+        .setting_input_item input{
+            text-align: center; 
+            width: 150px; 
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+        .setting_user_item div{
+            float: left; 
+            width: calc(19% - 2px); 
+            border-right: 2px solid #DA8644; 
+            line-height: 30px;
+        }
+    </style>
+    <style>
+        .online_join_item{
+            width: 100%;
+            height: 35px;
+            background: aqua;
+            border-bottom: 2px solid #DA8644;
+            float: left;
+        }
+        .online_join_item div{
+            width: 50%;
+            height: 100%;
+            float: left;
+            text-align: center;
+            line-height: 35px;
+        }
+        .online_unknow_item{
+            width: 100%;
+            height: 35px;
+            background: blanchedalmond;
+            border-bottom: 2px solid #DA8644;
+            float: left;
+        }
+        .online_unknow_item div{
+            width: 100%;
+            height: 100%;
+            float: left;
+            text-align: center;
+            line-height: 35px;
+        }
+    </style>
+    <body>
+        <div class="main_content" ng-controller="main_content">
+            <div style="width: 100%; height: 5%; border-bottom: 2px solid #DA8644;">
+                <button class="main_button" ng-click="onlineContent = false;
+                            settingContent = true;">
+                    線上名單
+                </button>
+                <button class="main_button" ng-click="onlineContent = true;
+                            settingContent = false;">
+                    設定
+                </button>
+            </div>
+            <div style="width: 100%; height: calc(95% - 2px);">
+                <div style="width: 100%; height: 100%;" ng-hide="settingContent" ng-controller="setting_content" ng-init="queryAll()">
+                    <div style="width: 100% ; height: 23px; border-bottom: 2px solid #DA8644;">
+                        <div class="setting_input_item" style="float: left; height: auto; width: 80%; padding-top: 1px;">
+                            姓名:<input ng-model="INPUT_NAME">學號:<input ng-model="INPUT_NUMBER">密碼:<input ng-model="INPUT_PASSWORD">                   
+                        </div>
+                        <button style="float: left; height: auto; width: calc(20% - 4px); font-weight: bold; font-size: 13px;" ng-click="addUser()">新增</button>
+                    </div>
+                    <div class="setting_user_item_title" style="width: 100% ; height: 23px; border-bottom: 2px solid #DA8644;">
+                        <div>
+                            姓名
+                        </div>
+                        <div>
+                            學號
+                        </div>
+                        <div>
+                            密碼
+                        </div>
+                        <div>
+                            LineID
+                        </div>
+                        <div>
+                            綁定碼
+                        </div>
+                        <div style="width: calc(5% + 5px); border-right: none;">
+                            刪除
+                        </div>
+                    </div>
+                    <div class="scrollbar" style="width: 100%; height: calc(100% - 50px); overflow-y: scroll;">
+                        <div class="setting_user_item" ng-repeat="user in users" style="width: 100%; height: 30px; background: {{user.BACKGROUND}}; border-bottom: 2px solid #DA8644; float: left;">
+                            <div title="{{user.NAME}}">
+                                {{user.NAME ? user.NAME.length > 9 ? user.NAME.substring(0, 9) + '...' : user.NAME : '&nbsp'}}
+                            </div>
+                            <div title="{{user.NUMBER}}">
+                                {{user.NUMBER ? user.NUMBER.length > 9 ? user.NUMBER.substring(0, 9) + '...' : user.NUMBER : '&nbsp'}}
+                            </div>
+                            <div title="{{user.PASSWORD}}">
+                                {{user.PASSWORD ? user.PASSWORD.length > 9 ? user.PASSWORD.substring(0, 9) + '...' : user.PASSWORD : '&nbsp'}}
+                            </div>
+                            <div title="{{user.LINEID}}">
+                                {{user.LINEID ? user.LINEID.length > 9 ? user.LINEID.substring(0, 9) + '...' : user.LINEID : '&nbsp'}}
+                            </div>
+                            <div title="{{user.BIND}}" ng-dblclick="copy(user)">
+                                {{user.BIND ? user.BIND.length > 9 ? user.BIND.substring(0, 9) + '...' : user.BIND : '&nbsp'}}
+                            </div>
+                            <div style="width: 5%; border-right: none;">
+                                <button style="width: 100%; height: 100%;" ng-click="delUser(user)">
+                                    <img src="../images/del.png" style="width: 21px; height: 21px;">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%; height: 100%;" ng-hide="onlineContent" ng-controller="online_content">
+                    <div style="width: 100%; height: 25px; border-bottom: 2px solid #DA8644;">
+                        <div style="width: 50%; height: 100%; border-right: 2px solid #DA8644; float: left; background: aqua">
+                            <div style="width: 50%; height: 100%; border-right: 2px solid #DA8644; float: left; text-align: center; line-height: 25px;">
+                                在線人數(已知)
+                            </div>
+                            <div style="width: calc(50% - 2px); height: 100%; float: left; text-align: center; line-height: 25px;">
+                                {{joinList.length}}
+                            </div>
+                        </div>
+                        <div style="width: calc(50% - 2px); height: 100%; float: left; background: blanchedalmond">
+                            <div style="width: 50%; height: 100%; border-right: 2px solid #DA8644; float: left; text-align: center; line-height: 25px;">
+                                在線人數(未知)
+                            </div>
+                            <div style="width: calc(50% - 2px); height: 100%; float: left; text-align: center; line-height: 25px;">
+                                {{unknowjoinList.length}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scrollbar" style="width: 100%; height: calc(100% - 27px); overflow-y: scroll;">
+                        <div ng-repeat="user in joinList" class="online_join_item">
+                            <div>
+                                {{user.NAME}}
+                            </div>
+                            <div>
+                                {{user.NUMBER}}
+                            </div>
+                        </div>
+                        <div ng-repeat="user in unknowjoinList" class="online_unknow_item">
+                            <div>
+                                {{user.NAME}}
+                            </div>
+                            <!--                        <div style="width: 50%; height: 100%; float: left; text-align: center; line-height: 35px;">
+                                                        未知
+                                                    </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </body>
+</html>
+

@@ -116,7 +116,7 @@ bot.on('message', function(event) {
 		 console.log(myStep);
 	  }
 	  }
-	  }while(i=0)
+	  }while(i!=0)
    }
    };
     

@@ -103,8 +103,8 @@ bot.on('message', function(event) {
 			break;
 		 }
          else
-            sendMessage(event,myQuestions[1][myStep]+'\n'+myQuestions[0][myStep+1]);
-         users[myId].replies[myStep+1]=event.message.text;
+            console.log(sendMessage(event,myQuestions[1][myStep]+'\n'+myQuestions[0][myStep+1]);
+         users[myId].replies[myStep+1]=event.message.text);
       }
       myStep++;
       users[myId].step=myStep;
@@ -116,7 +116,7 @@ bot.on('message', function(event) {
 		 console.log(myStep);
 	  }
 	  }
-	  }while(i!=0)
+	  }while(true)
    }
    };
     

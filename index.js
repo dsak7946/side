@@ -85,9 +85,9 @@ function appendMyRow(userId) {
 bot.on('message', function(event) {
 	
    if (event.message.text == '我要報名') {
-	   let i = 0;
+	   int i = 0;
+	   while(i==myStep){
 	   let myId=event.source.userId;
-	   for(i=0;i>myId;i++){
       if (users[myId]==undefined){
          users[myId]=[];
          users[myId].userId=myId;
@@ -112,8 +112,8 @@ bot.on('message', function(event) {
          users[myId].replies[0]=new Date();
          appendMyRow(myId);
 		 console.log(myStep);
-      }
-	}
+     }
+   }
 }
 	let requestMessage = event.message.text;
     if (requestMessage.indexOf("綁定") >= 0) {

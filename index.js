@@ -114,7 +114,8 @@ bot.on('message', function(event) {
          appendMyRow(myId);
 		 console.log(myStep);
 	 }
-	}
+	 
+	};
   }while(i=0)
  };
     

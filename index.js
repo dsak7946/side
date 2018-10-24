@@ -112,11 +112,7 @@ bot.on('message', function(event) {
          users[myId].replies[0]=new Date();
          appendMyRow(myId);
 		 console.log(myStep);
-	  }
-	  }
-	  }
-   }
-   };
+	  }}}}};
  
 	let requestMessage = event.message.text;
     if (requestMessage.indexOf("綁定") >= 0) {

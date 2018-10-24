@@ -100,6 +100,7 @@ bot.on('message', function(event) {
       else{
          if (myStep==(totalSteps-1)){
             sendMessage(event,myQuestions[1][myStep]);
+			break;
 		 }
          else
             sendMessage(event,myQuestions[1][myStep]+'\n'+myQuestions[0][myStep+1]);
@@ -115,7 +116,7 @@ bot.on('message', function(event) {
 		 console.log(myStep);
 	  }
 	  }
-	  }while(i=myStep)
+	  }while(i=0)
    };
     
 	let requestMessage = event.message.text;

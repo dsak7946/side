@@ -113,7 +113,6 @@ bot.on('message', function(event) {
          users[myId].replies[0]=new Date();
          appendMyRow(myId);
 		 console.log(myStep);
-
 	  }
 	  }while(i=0)
    };

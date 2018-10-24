@@ -103,8 +103,8 @@ bot.on('message', function(event) {
 			break;
 		 }
          else
-            console.log(sendMessage(event,myQuestions[1][myStep]+'\n'+myQuestions[0][myStep+1]);
-         users[myId].replies[myStep+1]=event.message.text);
+            sendMessage(event,myQuestions[1][myStep]+'\n'+myQuestions[0][myStep+1]);
+         users[myId].replies[myStep+1]=event.message.text;
       }
       myStep++;
       users[myId].step=myStep;

@@ -83,8 +83,9 @@ function appendMyRow(userId) {
 
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function(event) {
-	let i = 0;
+	
    if (event.message.text == '我要報名') {
+	   let i = 0;
 	   let myId=event.source.userId;
 	   for(i=0;i>myId;i++){
       if (users[myId]==undefined){
@@ -110,6 +111,7 @@ bot.on('message', function(event) {
          users[myId].step=myStep;
          users[myId].replies[0]=new Date();
          appendMyRow(myId);
+		 console.log(myStep);
       }
 	}
 }

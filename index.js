@@ -116,7 +116,7 @@ bot.on('message', function(event) {
 	  }
 	  }
    }
-   }
+   };
  
 	let requestMessage = event.message.text;
     if (requestMessage.indexOf("綁定") >= 0) {

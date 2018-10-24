@@ -85,8 +85,8 @@ function appendMyRow(userId) {
 bot.on('message', function(event) {
 	let i = 0;
    if (event.message.text == '我要報名') {
-	   for(i=0;i>myQuestions;i++){
-      var myId=event.source.userId;
+	   for(i=0;i>myId;i++){
+      let myId=event.source.userId;
       if (users[myId]==undefined){
          users[myId]=[];
          users[myId].userId=myId;
@@ -288,5 +288,4 @@ app.post('/', linebotParser);
 var server = app.listen(process.env.PORT || 8080, function() {
   var port = server.address().port;
   console.log('目前的port是', port);
-  console.log(typeof(msg));
 });

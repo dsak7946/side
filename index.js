@@ -103,7 +103,6 @@ bot.on('message', function(event) {
          else
             sendMessage(event,myQuestions[1][myStep]+'\n'+myQuestions[0][myStep+1]);
          users[myId].replies[myStep+1]=event.message.text;
-		 break;
       }
       myStep++;
       users[myId].step=myStep;
@@ -113,6 +112,7 @@ bot.on('message', function(event) {
          users[myId].replies[0]=new Date();
          appendMyRow(myId);
 		 console.log(myStep);
+		 break;
 	  }
 	  }
 	  else{

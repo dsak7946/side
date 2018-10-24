@@ -84,6 +84,7 @@ function appendMyRow(userId) {
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function(event) {
    if (event.message.text == '我要報名') {
+	   let i = -1;
 	do{
 		if (event.message.type == 'text'){ 
 	   let myId=event.source.userId;
@@ -115,10 +116,7 @@ bot.on('message', function(event) {
 		 break;
 	  }
 	  }
-	  else{
-		  sendMessage('您輸入的格式錯誤');
-	  }
-	  }while(true)
+	  }while(i=0)
    };
     
 	let requestMessage = event.message.text;

@@ -98,12 +98,12 @@ bot.on('message', function(event) {
          sendMessage(event,myQuestions[0][0]);
       else{
          if (myStep==(totalSteps-1)){
-            sendMessage(event,myQuestions[1][myStep]);
-			break;
+            sendMessage(event,myQuestions[1][myStep]);			
 		 }
          else
             sendMessage(event,myQuestions[1][myStep]+'\n'+myQuestions[0][myStep+1]);
          users[myId].replies[myStep+1]=event.message.text;
+		 break;
       }
       myStep++;
       users[myId].step=myStep;

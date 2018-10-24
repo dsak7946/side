@@ -85,7 +85,7 @@ function appendMyRow(userId) {
 bot.on('message', function(event) {
    if (event.message.text == '我要報名') {
 	    let i = 0;
-   while( i == myStep){
+   while( i==myStep){
 	  if (event.message.type == 'text') {
 	   let myId=event.source.userId;
       if (users[myId]==undefined){
@@ -112,7 +112,11 @@ bot.on('message', function(event) {
          users[myId].replies[0]=new Date();
          appendMyRow(myId);
 		 console.log(myStep);
-	  }}}}});
+	  }
+	  }
+	  }
+   }
+   });
  
 	let requestMessage = event.message.text;
     if (requestMessage.indexOf("綁定") >= 0) {
@@ -288,6 +292,5 @@ app.post('/', linebotParser);
 
 var server = app.listen(process.env.PORT || 8080, function() {
   var port = server.address().port;
-console.log('目前的port是', port);
-}
-);
+  console.log('目前的port是', port);
+});

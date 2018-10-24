@@ -114,13 +114,11 @@ bot.on('message', function(event) {
          appendMyRow(myId);
 		 console.log(myStep);
 	 }
-	 else{
+	 if(myStep<totalSteps)
 		 break;
-	  }
-	 }
-	 
-	  }while(i=0)
-   };
+	 } 
+  }while(i=0)
+ };
     
 	let requestMessage = event.message.text;
     if (requestMessage.indexOf("綁定") >= 0) {

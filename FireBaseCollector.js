@@ -1,6 +1,6 @@
 const firebase = require("firebase");
 
-const PROJECT_ID = "myskrboot>";
+const PROJECT_ID = "myskrboot";
 const API_KEY = "AIzaSyD789wa7n6FCRi8eDyrAwmjNDHYw1mAlzo";
 
 firebase.initializeApp({

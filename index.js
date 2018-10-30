@@ -41,6 +41,7 @@ var bot = linebot({
     channelSecret: 'fc0dde92ef9e9b182bc526a240c18346',
     channelAccessToken: 'fo/507dPjAsjw/gAjXcas2aKo94L9l5QOLrDqTkQ6fcsy5lDv4uRGAGHd0ck8DAumYuGVRYO9pNMJXWrcohw/2KnyeD0XJ1y2fW7fdgfpzmd5ChC5KuAV9REP9kFNlFubCii5jKuSVY81oDn3KTvRwdB04t89/1O/w1cDnyilFU='
 });
+
 //底下輸入client_secret.json檔案的內容
 var myClientSecret = {
     "installed": {
@@ -122,7 +123,7 @@ function appendMyRow(data) {
         }
     });
 }
-
+console.log(message);
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function (event) {
     let requestMessage = event.message.text;
@@ -253,7 +254,7 @@ bot.on('beacon', function (event) {
     switch (event.beacon.type) {
         case 'enter':
             let user = fireBaseCollector.userEnter(lineid);
-			 respone = '你進入教室';
+			 respone = '進來了就準備好就定位!!!';
             // console.log("user : " + !!user);
             if (user) {
                 if (!find(joinList, "LINEID", lineid)) {
@@ -273,7 +274,7 @@ bot.on('beacon', function (event) {
             break;
         case 'leave':
             let data = find(unknowjoinList, "LINEID", lineid);
-			respone = '你離開教室';
+			respone = '別走T_T!!!我還在這等你唷!';
             if (data) {
                 unknowjoinList.splice(data[1], 1);
             }

@@ -285,6 +285,7 @@ bot.on('beacon', function (event) {
             broadcast("online", {TYPE: "REMOVE", LINEID: lineid})
             break;
     }
+	bot.reply(event.replyToken, respone);
 });
 
 

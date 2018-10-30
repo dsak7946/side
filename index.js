@@ -251,6 +251,7 @@ bot.on('beacon', function (event) {
     switch (event.beacon.type) {
         case 'enter':
             let user = fireBaseCollector.userEnter(lineid);
+			 respone = '你進入教室';
             // console.log("user : " + !!user);
             if (user) {
                 if (!find(joinList, "LINEID", lineid)) {
@@ -270,6 +271,7 @@ bot.on('beacon', function (event) {
             break;
         case 'leave':
             let data = find(unknowjoinList, "LINEID", lineid);
+			respone = '你離開教室';
             if (data) {
                 unknowjoinList.splice(data[1], 1);
             }

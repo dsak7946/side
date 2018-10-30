@@ -123,9 +123,10 @@ function appendMyRow(data) {
         }
     });
 }
-console.log(message);
+
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function (event) {
+	console.log(message);
     let requestMessage = event.message.text;
     let lineid = event.source.userId;
     let data = find(users, "userid", lineid);

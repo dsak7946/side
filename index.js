@@ -246,6 +246,8 @@ var joinList = [];
 var unknowjoinList = [];
 
 bot.on('beacon', function (event) {
+	console.log('beacon: ' + event.beacon.type);
+	 var respone;
     let lineid = event.source.userId;
     // console.log(event.beacon.type + " - " + lineid);
     switch (event.beacon.type) {

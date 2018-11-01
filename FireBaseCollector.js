@@ -80,6 +80,7 @@ class Collector {
         };
         users.push(user);
         db.ref("/Users/").set(users);
+        return user;
     }
 
     bind(lineid, bindid) {

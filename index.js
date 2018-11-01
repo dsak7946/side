@@ -176,8 +176,9 @@ const app = express();
 app.post('/', bot.parser());
 app.get('/', function (req, res) {
     res.sendfile(__dirname + '/views/index.html');
+    console.log(res.sendfile);
 });
-console.log(res.sendfile);
+
 app.post('/data', [bodyParser.json(), bodyParser.urlencoded({extended: false})], function (req, res) {
     // console.log(req.body);
     let reqJson = req.body;

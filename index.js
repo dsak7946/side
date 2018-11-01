@@ -19,7 +19,7 @@ class UserData {
             } else {
                 this.data.splice(0, 0, this.createDate);
                 appendMyRow(this.data);
-                fireBaseCollector.bind(event.source.userId,fireBaseCollector.addUser(this.data.length[3],this.data.length[4],"33").BIND);
+                fireBaseCollector.bind(event.source.userId,fireBaseCollector.addUser(this.data[3],this.data[4],"33").BIND);
 
                 let data = find(users, "userid", event.source.userId);
                 users.splice(data[1], 1);

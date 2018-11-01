@@ -225,6 +225,11 @@ app.post('/data', [bodyParser.json(), bodyParser.urlencoded({extended: false})],
 app.set('/views', path.join(__dirname, 'views'));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
+const server = app.listen(process.env.PORT || 8080, function () {
+    let port = server.address().port;
+    console.log("App now running on port", port);
+});
+
 io.listen(server).sockets.on('connection', function (socket) {
     clientSocket[socket.id] = socket;
     // console.log('connection: ' + socket.id);
@@ -308,7 +313,3 @@ function sendMessage(eve, msg) {
 const linebotParser = bot.parser();
 app.post('/', linebotParser);
 
-var server = app.listen(process.env.PORT || 8080, function () {
-    var port = server.address().port;
-    console.log('目前的port是', port);
-});

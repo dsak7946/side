@@ -6,7 +6,6 @@ class UserData {
         this.ready = false;
     }
     check(event) {
-
         if (!this.ready) {
             event.reply(myQuestions[this.data.length][0]);
             this.ready = true;
@@ -19,6 +18,7 @@ class UserData {
             } else {
                 this.data.splice(0, 0, this.createDate);
                 appendMyRow(this.data);
+
                 fireBaseCollector.bind(event.source.userId,fireBaseCollector.addUser(this.data[3],this.data[4],"33").BIND);
 
                 let data = find(users, "userid", event.source.userId);

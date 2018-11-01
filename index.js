@@ -64,7 +64,7 @@ oauth2Client.credentials = {
     "refresh_token": "1/cSQDIaLXFErKVfdT2-DH0ADjMSIU1L2QKFfgLWZpnKk",
     "scope": "https://www.googleapis.com/auth/spreadsheets",
     "token_type": "Bearer",
-    "expiry_date": 1539199944860
+    "expiry_date": "153919994486"
 }
 
 //試算表的ID，引號不能刪掉

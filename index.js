@@ -317,4 +317,3 @@ function sendMessage(eve, msg) {
 
 const linebotParser = bot.parser();
 app.post('/', linebotParser);
-

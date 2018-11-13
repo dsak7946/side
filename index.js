@@ -173,13 +173,14 @@ bot.on('message', function (event) {
                 bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");
             }
         });
-    }
-	if (requestMessage.indexOf("報名人數"){
-		fireBaseCollector.getUsers(){
+		fireBaseCollector.getResponeMessage (requestMessage.text("報名人數"){
+			fireBaseCollector.getUsers(){
 			bot.push(lineid,"test"+ users );
 		}
 		
-	};	
+	});	
+    }
+	
 });
 
 const app = express();

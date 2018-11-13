@@ -178,8 +178,8 @@ bot.on('message', function (event) {
 			bot.push(lineid,"test"+ users );
 		}
 		
-	}});	
-    }
+	}};	
+    
 	
 });
 

@@ -257,11 +257,14 @@ var unknowjoinList = [];
 
 bot.on('beacon', function (event) {
     let lineid = event.source.userId;
+	console.log('beacon: ' + event.beacon.type);
+	var respone;
     // console.log(event.beacon.type + " - " + lineid);
     switch (event.beacon.type) {
         case 'enter':
             let user = fireBaseCollector.userEnter(lineid);
             // console.log("user : " + !!user);
+			respone = '你進入教室';
             if (user) {
                 if (!find(joinList, "LINEID", lineid)) {
                     let d = {LINEID: lineid, NAME: user.NAME, NUMBER: user.NUMBER, TIME: user.JOINTIME};
@@ -280,6 +283,7 @@ bot.on('beacon', function (event) {
             break;
         case 'leave':
             let data = find(unknowjoinList, "LINEID", lineid);
+			respone = '我壞掉了';
             if (data) {
                 unknowjoinList.splice(data[1], 1);
             }
@@ -291,6 +295,7 @@ bot.on('beacon', function (event) {
             broadcast("online", {TYPE: "REMOVE", LINEID: lineid})
             break;
     }
+	bot.reply(event.replyToken, respone);
 });
 
 

@@ -160,7 +160,7 @@ bot.on('message', function (event) {
                 event.reply("該綁定碼不存在或已經被綁定");
             }
             return;
-        } else if (requestMessage.indexOf("我要報名") >= 0) {
+        } else if (requestMessage.text("我要報名") >= 0) {
             var userData = new UserData(lineid);
             userData.check(event);
             users.push(userData);
@@ -174,6 +174,13 @@ bot.on('message', function (event) {
             }
         });
     }
+	if (requestMessage.indexOf("報名人數"){
+		fireBaseCollector.getUsers(){
+			bot.push(lineid,"test"+ users );
+		
+		}
+		
+	}	
 });
 
 const app = express();

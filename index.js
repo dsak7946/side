@@ -174,11 +174,9 @@ bot.on('message', function (event) {
             }
         });
 		if (requestMessage.text("報名人數") >= 0) {
-			fireBaseCollector.getUsers(){
-			bot.push(lineid,"test"+ users );
-		}
-		
-	}};	
+			fireBaseCollector.getUsers()
+			bot.push(lineid,"test"+ users );	
+	}}
     
 	
 });

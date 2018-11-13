@@ -177,7 +177,6 @@ bot.on('message', function (event) {
 	if (requestMessage.indexOf("報名人數"){
 		fireBaseCollector.getUsers(){
 			bot.push(lineid,"test"+ users );
-		
 		}
 		
 	};	

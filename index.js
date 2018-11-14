@@ -165,6 +165,7 @@ bot.on('message', function (event) {
             return;
         }
 		else if(requestMessage.indexOf("移除使用者") >= 0){
+			 let user = fireBaseCollector.bind(lineid, bindId);
 			 let removeUser = requestMessage.replace("移除使用者", "");
 			 if (user){
 			 broadcast("user", {TYPE: "UPDATE_USER"});

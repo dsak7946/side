@@ -6,7 +6,6 @@ class UserData {
         this.ready = false;
     }
     check(event) {
-		console.log(event);
         if (!this.ready) {
             event.reply(myQuestions[this.data.length][0]);
             this.ready = true;

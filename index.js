@@ -6,6 +6,7 @@ class UserData {
         this.ready = false;
     }
     check(event) {
+		console.log(event);
         if (!this.ready) {
             event.reply(myQuestions[this.data.length][0]);
             this.ready = true;
@@ -169,14 +170,13 @@ bot.on('message', function (event) {
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
             if (respone) {
                 bot.push(lineid, respone);
-            } else {
-                bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");
-            }
+            } else if(respone.text = "報名人數"){
+                bot.push(lineid, "報名人數為：[ " + requestMessage + " ]");
+            }else{
+				bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");
+			}
         });
-		if (requestMessage.indexOf("報名人數") >= 0) {
-			fireBaseCollector.getUsers()
-			bot.push(lineid,"test"+ users );	
-	}}
+		}
     
 	
 });

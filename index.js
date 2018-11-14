@@ -19,9 +19,7 @@ class UserData {
             } else {
                 this.data.splice(0, 0, this.createDate);
                 appendMyRow(this.data);
-
                 fireBaseCollector.bind(event.source.userId,fireBaseCollector.addUser(this.data[3],this.data[4],this.data[7]).BIND);
-
                 let data = find(users, "userid", event.source.userId);
                 users.splice(data[1], 1);
             }
@@ -167,6 +165,9 @@ bot.on('message', function (event) {
             users.push(userData);
             return;
         }
+		else if(requestMessage.indexOf("移除使用者") >= 0){
+			fireBaseCollector.removeUser(fireBaseCollector.bind(lineid, bindId));
+		}
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
             if (respone) {
                 bot.push(lineid, respone);

@@ -170,7 +170,7 @@ bot.on('message', function (event) {
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
             if (respone) {
                 bot.push(lineid, respone);
-            } else if(respone.text = "報名人數"){
+            } else if(respone.indexOf = "報名人數"){
                 bot.push(lineid, "報名人數為：[ " + requestMessage + " ]");
             }else{
 				bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");

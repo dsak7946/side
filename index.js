@@ -71,7 +71,6 @@ oauth2Client.credentials = {
 
 //試算表的ID，引號不能刪掉
 var mySheetId = '1xI2UxdRH0AJd2h5t0LcW66SjLOrZ3RiBcRMz1zEzd64';
-
 var myQuestions = [];
 var users = [];
 var totalSteps = 0;
@@ -131,7 +130,6 @@ bot.on('message', function (event) {
     let requestMessage = event.message.text;
     let lineid = event.source.userId;
     let data = find(users, "userid", lineid);
-	let datab = find (bindId);
     if (data) {
         data[0].check(event);
     } else {
@@ -167,7 +165,12 @@ bot.on('message', function (event) {
             return;
         }
 		else if(requestMessage.indexOf("移除使用者") >= 0){
-			fireBaseCollector.removeUser(datab);
+			 let removeUser = requestMessage.replace("移除使用者", "");
+			 if (user){
+			 broadcast("user", {TYPE: "UPDATE_USER"});
+             event.reply(["移除成功!", "感謝您使用該系統"]);
+			 fireBaseCollector.removeUser(reqJson.USER.BIND);
+			 }
 		}
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
             if (respone) {

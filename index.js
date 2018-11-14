@@ -131,6 +131,7 @@ bot.on('message', function (event) {
     let requestMessage = event.message.text;
     let lineid = event.source.userId;
     let data = find(users, "userid", lineid);
+	let datab = find (bindId);
     if (data) {
         data[0].check(event);
     } else {
@@ -166,7 +167,7 @@ bot.on('message', function (event) {
             return;
         }
 		else if(requestMessage.indexOf("移除使用者") >= 0){
-			fireBaseCollector.removeUser(fireBaseCollector.bind(lineid, bindId));
+			fireBaseCollector.removeUser(datab);
 		}
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
             if (respone) {

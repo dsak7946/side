@@ -68,7 +68,7 @@ class Collector {
         }
     }
 
-    addUser(name, number, password) {
+    addUser(name, number, BIND) {
         let user = {
             NAME: name,
             NUMBER: number,

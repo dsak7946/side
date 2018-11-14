@@ -164,13 +164,6 @@ bot.on('message', function (event) {
             users.push(userData);
             return;
         }
-		else if(requestMessage.indexOf("移除使用者") >= 0){
-			 let removeUser = requestMessage.replace("移除使用者", "");
-			 broadcast("user", {TYPE: "UPDATE_USER"});
-             event.reply(["移除成功!", "感謝您使用該系統"]);
-			 fireBaseCollector.removeUser(reqJson.USER.BIND);
-			 
-		}
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
             if (respone) {
                 bot.push(lineid, respone);

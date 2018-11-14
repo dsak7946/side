@@ -193,7 +193,7 @@ app.get('/', function (req, res) {
 
 app.post('/data', [bodyParser.json(), bodyParser.urlencoded({extended: false})], function (req, res) {
     // console.log(req.body);
-    let reqJson = req.body;
+    var reqJson = req.body;
     if (!reqJson.TYPE) {
         res.status(501).send('Bad Request');
         return;

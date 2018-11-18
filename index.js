@@ -205,7 +205,7 @@ bot.on('message', function (event) {
         }
 		else if(requestMessage.indexOf("?") >= 0){
 			  myResult=myLineTemplate;
-				return;
+				return myResult;
 		}
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
             if (respone) {

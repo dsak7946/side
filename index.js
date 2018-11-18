@@ -172,7 +172,7 @@ bot.on('message', function (event) {
     if (data) {
         data[0].check(event);
     } else {
-        if (requestMessage.text("綁定") >= 0) {
+        if (requestMessage.indexOf("綁定") >= 0) {
             let bindId = requestMessage.replace("綁定", "");
             let lineid = event.source.userId;
             let user = fireBaseCollector.bind(lineid, bindId);
@@ -197,7 +197,7 @@ bot.on('message', function (event) {
                 event.reply("該綁定碼不存在或已經被綁定");
             }
             return;
-        } else if (requestMessage.text("我要報名") > -1) {
+        } else if (requestMessage.indexOf("我要報名") > -1) {
             var userData = new UserData(lineid);
             userData.check(event);
             users.push(userData);
@@ -206,7 +206,7 @@ bot.on('message', function (event) {
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
             if (respone) {
                 bot.push(lineid, respone);
-			}else if (requestMessage.text("?") >= 0  ){
+			}else if (requestMessage.indexOf("?") >= 0  ){
 				event.reply(myLineTemplate);
 			}else{
 				bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");

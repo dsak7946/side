@@ -204,18 +204,8 @@ bot.on('message', function (event) {
             return;
         }
 		else if(requestMessage.indexOf("?") >= 0){
-			var myResult=requestMessage(myMsg);
 			  myResult=myLineTemplate;
-					  myResult='';
-					  try{
-						 myResult='答案是'+math.eval(myMsg.toLowerCase()).toString();
-					  }catch(err){
-						 myResult='';
-					  }
-					  if (myResult==='')
-						 myResult='抱歉，我不懂這句話的意思！';
-				   }
-				   return myResult;
+				return;
 		}
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
             if (respone) {

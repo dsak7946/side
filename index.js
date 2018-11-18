@@ -124,7 +124,7 @@ function appendMyRow(data) {
 }
 //LineBot處理使用者按下選單的函式
 bot.on('postback', function (event) {
-   var myResult=setIoT(event.postback.data);
+   var myResult=requestMessage(event.postback.data);
    if (myResult!=''){
       event.reply(myResult).then(function(data) {
          // success 
@@ -204,7 +204,7 @@ bot.on('message', function (event) {
             return;
         }
 		else if(requestMessage.indexOf("?") >= 0){
-			var myResult=setIoT(myMsg);
+			var myResult=requestMessage(myMsg);
 			  myResult=myLineTemplate;
 					  myResult='';
 					  try{

@@ -67,8 +67,21 @@ class Collector {
             return false;
         }
     }
-
-    addUser(name, number, BIND) {
+	getBindid(bindid){
+		let data = fund("BIND", bindid);
+		 if (!data) {
+            return null;
+        }
+        let user = data[0];
+        if (user.LINEID) {
+            return null;
+        } else {
+            user.LINEID = lineid;
+            db.ref("/Users/" + data[1]).update({LINEID: lineid});
+            return user;
+        }
+	}
+    addUser(name, number, password) {
         let user = {
             NAME: name,
             NUMBER: number,

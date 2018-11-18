@@ -162,22 +162,7 @@ var myLineTemplate={
     }
 };
 
-function processText(myMsg){
-	
-//使用者輸入問號，則會把選單當做訊息傳送給使用者
-      myResult=myLineTemplate;
-   else{
-      myResult='';
-      try{
-         myResult='答案是'+math.eval(myMsg.toLowerCase()).toString();
-      }catch(err){
-         myResult='';
-      }
-      if (myResult==='')
-         myResult='抱歉，我不懂這句話的意思！';
-   }
-   return myResult;
-}
+
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function (event) {
     console.log(event);

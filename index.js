@@ -206,8 +206,8 @@ bot.on('message', function (event) {
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
             if (respone) {
                 bot.push(lineid, respone);
-			}else if (respone.indexOf("?") >= 0  ){
-				event.reply (myLineTemplate);
+			}else if (requestMessage.indexOf("?") >= 0  ){
+				bot.push(lineid, myLineTemplate);
 			}
 			{
 				bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");

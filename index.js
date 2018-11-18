@@ -197,7 +197,7 @@ bot.on('message', function (event) {
                 event.reply("該綁定碼不存在或已經被綁定");
             }
             return;
-        } else if (requestMessage.indexOf("我要報名") >= 0) {
+        } else if (requestMessage.indexOf("我要報名") > -1) {
             var userData = new UserData(lineid);
             userData.check(event);
             users.push(userData);
@@ -207,7 +207,7 @@ bot.on('message', function (event) {
             if (respone) {
                 bot.push(lineid, respone);
 			}else if (requestMessage.indexOf("?") >= 0  ){
-				bot.push(lineid, myLineTemplate);
+				event.reply(myLineTemplate);
 			}else{
 				bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");
 			}

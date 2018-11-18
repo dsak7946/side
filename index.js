@@ -203,14 +203,12 @@ bot.on('message', function (event) {
             users.push(userData);
             return;
         }
-		else if(requestMessage.indexOf("?") >= 0){
-			 event.reply (myLineTemplate);
-				return;
-		}
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
             if (respone) {
                 bot.push(lineid, respone);
-			}else
+			}else if (respone.text("?")  ){
+				event.reply (myLineTemplate);
+			}
 			{
 				bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");
 			}

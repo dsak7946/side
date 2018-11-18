@@ -206,7 +206,7 @@ bot.on('message', function (event) {
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
             if (respone) {
                 bot.push(lineid, respone);
-			}else if (respone.text("?")  ){
+			}else if (respone.indexOf("?") >= 0  ){
 				event.reply (myLineTemplate);
 			}
 			{

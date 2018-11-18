@@ -208,8 +208,7 @@ bot.on('message', function (event) {
                 bot.push(lineid, respone);
 			}else if (requestMessage.indexOf("?") >= 0  ){
 				bot.push(lineid, myLineTemplate);
-			}
-			{
+			}else{
 				bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");
 			}
         });

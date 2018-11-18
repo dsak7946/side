@@ -225,7 +225,7 @@ bot.on('message', function (event) {
 				bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");
 			}
         });
-		}
+		
     
 	
 });

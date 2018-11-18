@@ -122,7 +122,62 @@ function appendMyRow(data) {
         }
     });
 }
+//LineBot處理使用者按下選單的函式
+bot.on('postback', function (event) {
+   var myResult=setIoT(event.postback.data);
+   if (myResult!=''){
+      event.reply(myResult).then(function(data) {
+         // success 
+         console.log('訊息已傳送！');
+      }).catch(function(error) {
+         // error 
+         console.log('error');
+      });
+   }
+});
+//觸控選單程式碼
+var myLineTemplate={
+    type: 'template',
+    altText: 'this is a confirm template',
+    template: {
+        type: 'buttons',
+        text: '按下選單可以選擇功能！\n輸入?可以再看到這個選單！',
+        actions: [{
+            type: 'postback',
+            label: '我要報名',
+            data: '我要報名'
+        }, {
+            type: 'postback',
+            label: '',
+            data: 'LED關'
+        },{
+            type: 'postback',
+            label: '電燈開',
+            data: '電燈開'
+        },{
+            type: 'postback',
+            label: '電燈關',
+            data: '電燈關'
+        }]
+    }
+};
 
+function processText(myMsg){
+	
+//使用者輸入問號，則會把選單當做訊息傳送給使用者
+      myResult=myLineTemplate;
+   else{
+      myResult='';
+      try{
+         myResult='答案是'+math.eval(myMsg.toLowerCase()).toString();
+      }catch(err){
+         myResult='';
+      }
+      if (myResult==='')
+         myResult='抱歉，我不懂這句話的意思！';
+   }
+   return myResult;
+}
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function (event) {
     console.log(event);
@@ -163,6 +218,20 @@ bot.on('message', function (event) {
             users.push(userData);
             return;
         }
+		else if(requestMessage.indexOf("?") >= 0){
+			var myResult=setIoT(myMsg);
+			  myResult=myLineTemplate;
+					  myResult='';
+					  try{
+						 myResult='答案是'+math.eval(myMsg.toLowerCase()).toString();
+					  }catch(err){
+						 myResult='';
+					  }
+					  if (myResult==='')
+						 myResult='抱歉，我不懂這句話的意思！';
+				   }
+				   return myResult;
+		}
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
             if (respone) {
                 bot.push(lineid, respone);

@@ -249,7 +249,7 @@ bot.on('message', function (event) {
               bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
             fireBaseCollector.addUser(useridd,vv,lineid);
 			else (requestMessage = useridd )
-				event.reply(["此使用者名稱以重複:"])
+				event.reply(["此使用者名稱以重複:"]);
 		  }}
            else{
             bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");

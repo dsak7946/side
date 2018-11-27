@@ -251,7 +251,7 @@ bot.on('message', function (event) {
 			 }
 			else 
 				event.reply(["此使用者名稱以重複:"]);
-		  }}
+		  }
            else{
             bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");
               }

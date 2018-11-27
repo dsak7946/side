@@ -243,12 +243,12 @@ bot.on('message', function (event) {
            else if (requestMessage=="我要註冊"){
             bot.push(lineid,"您的ID:"+lineid);
             event.reply(["請輸入使用者名稱:"]);
-		 else if(requestMessage != useridd ){
+		     if(requestMessage != useridd ){
             // bot.push(lineid,"請輸入使用者名稱:",);
               var useridd = event.message.text;
               bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
             fireBaseCollector.addUser(useridd,vv,lineid);
-			else (requestMessage = useridd )
+			else if
 				event.reply(["此使用者名稱以重複:"]);
 		  }}
            else{

@@ -244,7 +244,6 @@ bot.on('message', function (event) {
 		    bot.push(fireBaseCollector.getUsers());
             bot.push(lineid,"您的ID:"+lineid);
             event.reply(["請輸入使用者名稱:"]);
-			fireBaseCollector.find()
 		     if(useridd != requestMessage ){
             // bot.push(lineid,"請輸入使用者名稱:",);
               var useridd = event.message.text;

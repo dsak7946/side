@@ -124,7 +124,7 @@ function appendMyRow(data) {
 }
 //LineBot處理使用者按下選單的函式
 bot.on('postback', function (event) {
-   var myResult=requestMessage(event.postback.data);
+   var myResult=setIoT(event.postback.data);
    if (myResult!=''){
       event.reply(myResult).then(function(data) {
          // success 
@@ -135,6 +135,33 @@ bot.on('postback', function (event) {
       });
    }
 });
+function processText(myMsg){
+   var myResult=setIoT(myMsg);
+   if (myResult!=''){}
+   else if (myMsg==='你好' || myMsg==='早安' || myMsg==='午安' || myMsg==='晚安')
+      myResult=myMsg; 
+   else if (myMsg==='我很帥')
+      myResult='我也這麼覺得';
+   else if (myMsg==='繼電器')
+      myResult='5號腳位';
+   else if (myMsg==='再見')
+      myResult='這麼快就要離開我了！';
+   else if (myMsg==='?' || myMsg==='？')
+//使用者輸入問號，則會把選單當做訊息傳送給使用者
+      myResult=myLineTemplate;
+   else{
+      myResult='';
+      try{
+         myResult='答案是'+math.eval(myMsg.toLowerCase()).toString();
+      }catch(err){
+         myResult='';
+      }
+      if (myResult==='')
+         myResult='抱歉，我不懂這句話的意思！';
+   }
+   return myResult;
+}
+
 //觸控選單程式碼
 var myLineTemplate={
     type: 'template',
@@ -162,7 +189,7 @@ var myLineTemplate={
     }
 };
 
-
+var vv = 1;
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function (event) {
     console.log(event);
@@ -204,13 +231,32 @@ bot.on('message', function (event) {
             return;
         }
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
-            if (respone) {
-                bot.push(lineid, respone);
-			}else if (requestMessage.indexOf("?") >= 0  ){
-				event.reply(myLineTemplate);
-			}else{
-				bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");
-			}
+    if (respone) {
+      bot.push(lineid, respone);
+    } else {
+          if (requestMessage=="注意事項"){
+            bot.push(lineid,"1.注意掉落物\n2.留意腳邊障礙物\n3.配戴安全帽、安全護目鏡及安全手套\n4.物品不可任意堆置、通道要保持流通");
+              }
+          else if (requestMessage=="當前人數"){
+            bot.push(lineid,"目前有" + (people_num) + "人");
+              }
+          else if (requestMessage=="我要註冊"){
+            bot.push(lineid,"您的ID:"+lineid);
+            event.reply(["請輸入使用者名稱:"]);
+			if(requestMessage != useridd ){
+            // bot.push(lineid,"請輸入使用者名稱:",);
+              var useridd = event.message.text;
+              bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
+            fireBaseCollector.addUser(useridd,vv,lineid);
+			else if (requestMessage = useridd )
+				event.reply(["此使用者名稱以重複:"])
+		  }}
+           else{
+            bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");
+              }
+     
+    }
+  });
         });
 		
     

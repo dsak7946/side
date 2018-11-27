@@ -248,7 +248,8 @@ bot.on('message', function (event) {
               var useridd = event.message.text;
               bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
             fireBaseCollector.addUser(useridd,vv,lineid);
-			else if
+			 }
+			else 
 				event.reply(["此使用者名稱以重複:"]);
 		  }}
            else{

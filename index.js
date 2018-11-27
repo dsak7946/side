@@ -241,7 +241,7 @@ bot.on('message', function (event) {
             bot.push(lineid,"目前有" + (people_num) + "人");
               }
            else if (requestMessage=="我要註冊"){
-		    bot.push(fireBaseCollector.getUsers());
+		    bot.push(lineid,fireBaseCollector.getUsers());
             bot.push(lineid,"您的ID:"+lineid);
             event.reply(["請輸入使用者名稱:"]);
 		     if(useridd != requestMessage ){

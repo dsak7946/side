@@ -224,7 +224,7 @@ bot.on('message', function (event) {
                 event.reply("該綁定碼不存在或已經被綁定");
             }
             return;
-        } else if (requestMessage.indexOf("我要報名") > -1) {
+        } else if (requestMessage = "我要報名") {
             var userData = new UserData(lineid);
             userData.check(event);
             users.push(userData);
@@ -243,7 +243,7 @@ bot.on('message', function (event) {
            else if (requestMessage=="我要註冊"){
             bot.push(lineid,"您的ID:"+lineid);
             event.reply(["請輸入使用者名稱:"]);
-		     if(requestMessage = fireBaseCollector.getUsers(requestMessage) ){
+		     if(requestMessage = event.source.userId ){
             // bot.push(lineid,"請輸入使用者名稱:",);
               var useridd = event.message.text;
               bot.push(lineid,"您輸入的使用者名稱為："+(useridd));

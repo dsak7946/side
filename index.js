@@ -241,10 +241,10 @@ bot.on('message', function (event) {
             bot.push(lineid,"目前有" + (people_num) + "人");
               }
            else if (requestMessage=="我要註冊"){
-		    bot.push(lineid,fireBaseCollector.getUsers());
+		    bot.push(lineid,fireBaseCollector.getUsers(requestMessage));
             bot.push(lineid,"您的ID:"+lineid);
             event.reply(["請輸入使用者名稱:"]);
-		     if(useridd != requestMessage ){
+		     if(requestMessage != fireBaseCollector.getUsers(requestMessage) ){
             // bot.push(lineid,"請輸入使用者名稱:",);
               var useridd = event.message.text;
               bot.push(lineid,"您輸入的使用者名稱為："+(useridd));

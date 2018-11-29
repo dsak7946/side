@@ -224,7 +224,7 @@ bot.on('message', function (event) {
                 event.reply("該綁定碼不存在或已經被綁定");
             }
             return;
-        } else if (requestMessage = "我要報名") {
+        } else if (requestMessage.indexOf("我要報名") >= 0) {
             var userData = new UserData(lineid);
             userData.check(event);
             users.push(userData);
@@ -234,18 +234,18 @@ bot.on('message', function (event) {
     if (respone) {
       bot.push(lineid, respone);
     } else {
-          if (requestMessage=="注意事項"){
+          if (requestMessage.indexOf("注意事項") >= 0){
             bot.push(lineid,"1.注意掉落物\n2.留意腳邊障礙物\n3.配戴安全帽、安全護目鏡及安全手套\n4.物品不可任意堆置、通道要保持流通");
               }
-          else if (requestMessage=="當前人數"){
+          else if (requestMessage.indexOf("當前人數") >= 0){
             bot.push(lineid,"目前有" + (people_num) + "人");
               }
-           else if (requestMessage=="我要註冊"){
+           else if (requestMessage.indexOf("我要註冊") >= 0){
             bot.push(lineid,"您的ID:"+lineid);
             event.reply(["請輸入使用者名稱:"]);
-		     if(requestMessage = fireBaseCollector.getUsers(requestMessage) ){
+			var useridd = event.message.text;
+		     if(requestMessage.indexOf(useridd) >= fireBaseCollector.useridd ){
             // bot.push(lineid,"請輸入使用者名稱:",);
-              var useridd = event.message.text;
               bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
             fireBaseCollector.addUser(useridd,vv,lineid);
 			 }

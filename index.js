@@ -244,8 +244,7 @@ bot.on('message', function (event) {
             bot.push(lineid,"您的ID:"+lineid);
             event.reply(["請輸入使用者名稱:"]);
 			var useridd = event.message.text;
-			var useridd1 = new useridd (x) ;
-		     if(requestMessage.indexOf(useridd1) >= fireBaseCollector.useridd ){
+		     if(requestMessage.indexOf(useridd) != fireBaseCollector.useridd ){
             // bot.push(lineid,"請輸入使用者名稱:",);
               bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
             fireBaseCollector.addUser(useridd,vv,lineid);

@@ -173,7 +173,7 @@ bot.on('message', function (event) {
         }
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
 		firebase.database().ref('/Users/' + lineid).once('value').then(function(snapshot) {
-		console.log(snapshot.val());
+		console.log(snapshot.val()), true);
 		
       if (respone) {
         bot.push(lineid, respone);

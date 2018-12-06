@@ -35,6 +35,7 @@ var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 var path = require('path');
 const fireBaseCollector = require('./FireBaseCollector.js');
+var firebase = require("firebase");
 const clientSocket = {};
 const io = require('socket.io');
 const bodyParser = require('body-parser');
@@ -135,9 +136,9 @@ var config = {
     messagingSenderId: "157912946057"
   };
 
-var db = fireBaseCollector.database();
+var db = firebase.database();
 
- fireBaseCollector.database().ref('/Users/' + LINEID).once('value').then(function(snapshot) {
+ firebase.database().ref('/Users/' + LINEID).once('value').then(function(snapshot) {
     console.log(snapshot.val());
   });
 

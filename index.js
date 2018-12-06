@@ -137,9 +137,14 @@ var config = {
   };
 
 var db = firebase.database();
+
+ firebase.database().ref('/Users/' + lineid.).once('value').then(function(snapshot) {
+    console.log(snapshot.val());
+  });
+
+
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function (event) {
-	
     console.log(event);
     let requestMessage = event.message.text;
     let lineid = event.source.userId;
@@ -179,22 +184,6 @@ bot.on('message', function (event) {
             return;
         }
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
-            if (respone) {
-                bot.push(lineid, respone);
-            } else {
-                bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");
-            }
-        });
-    }
-});
-
-  event.source.profile().then(function (profile) {
-	  firebase.database().ref('/Users/' + lineid).once('value').then(function(snapshot) {
-    		console.log(snapshot.val());
-  });
-
-    user = profile.displayName;
-    fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
       if (respone) {
         bot.push(lineid, respone);
       } else {
@@ -348,7 +337,56 @@ bot.on('message', function (event) {
       }
     });
   });
+});
 
+const app = express();
+app.post('/', bot.parser());
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/views/index.html');
+});
+app.post('/data', [bodyParser.json(), bodyParser.urlencoded({ extended: false })], function (req, res) {
+  // console.log(req.body);
+  let reqJson = req.body;
+  if (!reqJson.TYPE) {
+    res.status(501).send('Bad Request');
+    return;
+  }
+  switch (reqJson.TYPE) {
+    case "QUERY":
+      let users = fireBaseCollector.getUsers();
+      let sendData = [];
+      users.forEach(function (e) {
+        sendData.push({ NAME: e.NAME, NUMBER: e.NUMBER, PASSWORD: e.PASSWORD, LINEID: e.LINEID, BIND: e.BIND });
+      });
+      res.send(sendData);
+      break;
+    case "ADD":
+      fireBaseCollector.addUser(reqJson.DATA.NAME, reqJson.DATA.NUMBER, reqJson.DATA.PASSWORD);
+      res.sendStatus(200);
+      break;
+    case "REMOVE":
+      fireBaseCollector.removeUser(reqJson.USER.BIND);
+      if (reqJson.USER.LINEID) {
+        let data = find(joinList, "LINEID", reqJson.USER.LINEID);
+        if (data) {
+          joinList.splice(data[1], 1);
+          broadcast("online", { TYPE: "REMOVE", LINEID: reqJson.USER.LINEID });
+          bot.getUserProfile(reqJson.USER.LINEID).then(function (profile) {
+            let d = { LINEID: reqJson.USER.LINEID, NAME: profile.displayName };
+            unknowjoinList.push(d);
+            broadcast("online", { TYPE: "ADD", UNKNOWN: true, DATA: d })
+          })
+        }
+      }
+      res.sendStatus(200);
+      break;
+    case "ONLINE":
+      res.send({
+        JL: joinList,
+        UK: unknowjoinList
+      });
+    }
+});
 
 const app = express();
 app.post('/', bot.parser());

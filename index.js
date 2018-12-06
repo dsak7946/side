@@ -134,7 +134,7 @@ var config = {
     storageBucket: "myskrboot.appspot.com",
     messagingSenderId: "157912946057"
   };
-fireBaseCollector.initializeApp(config);
+
 var db = fireBaseCollector.database();
 
  fireBaseCollector.database().ref('/Users/' + LINEID).once('value').then(function(snapshot) {

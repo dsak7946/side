@@ -174,7 +174,7 @@ bot.on('message', function (event) {
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
 		firebase.database().ref('/Users/' + lineid).once('value').then(function(snapshot) {
 		console.log(snapshot.val());
-		});
+		
       if (respone) {
         bot.push(lineid, respone);
       } else {
@@ -327,7 +327,8 @@ bot.on('message', function (event) {
 
       }
     });
-  }});
+  }})
+  });
 const app = express();
 app.post('/', bot.parser());
 app.get('/', function (req, res) {

@@ -172,10 +172,10 @@ bot.on('message', function (event) {
             return;
         }
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
-      if (respone) {
-		 firebase.database().ref('/Users/' + lineid).once('value').then(function(snapshot) {
-    console.log(snapshot.val());
+		firebase.database().ref('/Users/' + lineid).once('value').then(function(snapshot) {
+		console.log(snapshot.val());
 		});
+      if (respone) {
         bot.push(lineid, respone);
       } else {
         if (requestMessage == "注意事項") {
@@ -185,7 +185,7 @@ bot.on('message', function (event) {
           bot.push(lineid, "目前有" + (people_num) + "人");
         }
         else if (requestMessage == "我要註冊") {
-			if (snapshot.val()=lineid)
+			if (snapshot.val() = lineid)
           var checkin = Boolean(true);
           if (checkin = true) {
             bot.push(lineid, "您已成功註冊!\nID:" + lineid);

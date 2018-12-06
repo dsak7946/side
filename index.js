@@ -348,7 +348,7 @@ bot.on('message', function (event) {
       }
     });
   });
-});
+
 
 const app = express();
 app.post('/', bot.parser());
@@ -491,4 +491,3 @@ function sendMessage(eve, msg) {
 
 const linebotParser = bot.parser();
 app.post('/', linebotParser);
-

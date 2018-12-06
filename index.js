@@ -39,7 +39,6 @@ var firebase = require("firebase");
 const clientSocket = {};
 const io = require('socket.io');
 const bodyParser = require('body-parser');
-
 var bot = linebot({
     channelId: '1611184250',
     channelSecret: 'fc0dde92ef9e9b182bc526a240c18346',
@@ -57,7 +56,6 @@ var myClientSecret = {
         "redirect_uris": ["urn:ietf:wg:oauth:2.0:oob", "http://localhost"]
     }
 }
-
 var auth = new googleAuth();
 var oauth2Client = new auth.OAuth2(myClientSecret.installed.client_id, myClientSecret.installed.client_secret,
     myClientSecret.installed.redirect_uris[0]);
@@ -70,15 +68,12 @@ oauth2Client.credentials = {
     "token_type": "Bearer",
     "expiry_date": "153919994486"
 }
-
 //試算表的ID，引號不能刪掉
 var mySheetId = '1xI2UxdRH0AJd2h5t0LcW66SjLOrZ3RiBcRMz1zEzd64';
-
 var myQuestions = [];
 var users = [];
 var totalSteps = 0;
 var myReplies = [];
-
 //程式啟動後會去讀取試算表內的問題
 getQuestions();
 
@@ -135,11 +130,7 @@ var config = {
     storageBucket: "myskrboot.appspot.com",
     messagingSenderId: "157912946057"
   };
-
 var db = firebase.database();
-
-
-
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function (event) {
 	 firebase.database().ref('/Users/' + lineid).once('value').then(function(snapshot) {
@@ -337,8 +328,6 @@ bot.on('message', function (event) {
       }
     });
   }});
-
-
 const app = express();
 app.post('/', bot.parser());
 app.get('/', function (req, res) {
@@ -387,10 +376,6 @@ app.post('/data', [bodyParser.json(), bodyParser.urlencoded({ extended: false })
       });
     }
 });
-    res.sendfile(__dirname + '/views/index.html');
-    console.log(res.sendfile);
-});
-
 app.set('/views', path.join(__dirname, 'views'));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 const server = app.listen(process.env.PORT || 8080, function () {
@@ -451,8 +436,7 @@ bot.on('beacon', function (event) {
             fireBaseCollector.userLeave(lineid);
             broadcast("online", {TYPE: "REMOVE", LINEID: lineid})
             break;
-    }
-});
+    }});
 
 
 function find(arr, s, v) {

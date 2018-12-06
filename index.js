@@ -326,7 +326,7 @@ bot.on('message', function (event) {
         }
 
       }
-    }, true));
+    }, true);
 });}});
 const app = express();
 app.post('/', bot.parser());

@@ -137,14 +137,9 @@ var config = {
   };
 
 var db = firebase.database();
-
- firebase.database().ref('/Users/' + lineid).once('value').then(function(snapshot) {
-    console.log(snapshot.val());
-  });
-
-
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function (event) {
+	
     console.log(event);
     let requestMessage = event.message.text;
     let lineid = event.source.userId;
@@ -194,6 +189,10 @@ bot.on('message', function (event) {
 });
 
   event.source.profile().then(function (profile) {
+	  firebase.database().ref('/Users/' + lineid).once('value').then(function(snapshot) {
+    		console.log(snapshot.val());
+  });
+
     user = profile.displayName;
     fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
       if (respone) {

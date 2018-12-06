@@ -101,12 +101,26 @@ var db = firebase.database();
           bot.push(lineid, "目前有" + (people_num) + "人");
         }
         else if (requestMessage == "我要註冊") {
-          bot.push(lineid, "您的ID:" + lineid);
-          event.reply(["請輸入使用者名稱:"]);
-          // bot.push(lineid,"請輸入使用者名稱:",);
-          var useridd = event.message.text;
-          bot.push(lineid, "您輸入的使用者名稱為：" + (useridd));
-          fireBaseCollector.addUser(useridd, vv, lineid);
+			if (snapshot.val()=lineid)
+          var checkin = Boolean(true);
+          if (checkin = true) {
+            bot.push(lineid, "您已成功註冊!\nID:" + lineid);
+            aaa = 1;
+            var gettuser = fireBaseCollector.getUsers();
+            if (gettuser) {
+              // User is signed in.
+              bot.push(lineid, "success");
+            } else {
+              bot.push(lineid, "faild");
+              // No user is signed in.
+            }
+          }
+          else {
+            bot.push(lineid, "您已註冊過");
+          }
+          // var useridd = event.message.text;
+          // bot.push(lineid, "您輸入的使用者名稱為：" + (useridd));
+          fireBaseCollector.addUser(lineid);
         }
         else if (requestMessage == "天氣資訊") {
           bot.push(

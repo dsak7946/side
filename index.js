@@ -138,13 +138,13 @@ var config = {
 
 var db = firebase.database();
 
- firebase.database().ref('/Users/' + lineid).once('value').then(function(snapshot) {
-    console.log(snapshot.val());
-  });
 
 
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function (event) {
+	 firebase.database().ref('/Users/' + lineid).once('value').then(function(snapshot) {
+    console.log(snapshot.val());
+  });
     console.log(event);
     let requestMessage = event.message.text;
     let lineid = event.source.userId;
@@ -393,7 +393,6 @@ app.post('/data', [bodyParser.json(), bodyParser.urlencoded({ extended: false })
 
 app.set('/views', path.join(__dirname, 'views'));
 app.use('/images', express.static(path.join(__dirname, 'images')));
-
 const server = app.listen(process.env.PORT || 8080, function () {
     let port = server.address().port;
     console.log("App now running on port", port);
@@ -407,8 +406,6 @@ io.listen(server).sockets.on('connection', function (socket) {
         delete clientSocket[socket.id];
     });
 });
-
-
 function broadcast(channel, msg) {
     // console.log(msg);
     for (let id in clientSocket) {
@@ -477,7 +474,5 @@ function sendMessage(eve, msg) {
         return false;
     });
 }
-
-
 const linebotParser = bot.parser();
 app.post('/', linebotParser);

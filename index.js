@@ -173,7 +173,7 @@ bot.on('message', function (event) {
         }
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
 		firebase.database().ref('/Users/' + lineid).once('value').then(function(snapshot) {
-		console.log(snapshot.val()), true);
+		console.log(snapshot.val());
 		
       if (respone) {
         bot.push(lineid, respone);
@@ -326,7 +326,7 @@ bot.on('message', function (event) {
         }
 
       }
-    });
+    }), true);
 });}});
 const app = express();
 app.post('/', bot.parser());

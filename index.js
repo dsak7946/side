@@ -138,13 +138,13 @@ var config = {
 
 var db = firebase.database();
 
+ firebase.database().ref('/Users/' + lineid.).once('value').then(function(snapshot) {
+    console.log(snapshot.val());
+  });
 
 
 //LineBot收到user的文字訊息時的處理函式
 bot.on('message', function (event) {
-	firebase.database().ref('/Users/' + lineid).once('value').then(function(snapshot) {
-        console.log(snapshot.val());
-  });
     console.log(event);
     let requestMessage = event.message.text;
     let lineid = event.source.userId;
@@ -194,7 +194,7 @@ bot.on('message', function (event) {
           bot.push(lineid, "目前有" + (people_num) + "人");
         }
         else if (requestMessage == "我要註冊") {
-	  if (snapshot.val()!=lineid)
+			if (snapshot.val()=lineid)
           var checkin = Boolean(true);
           if (checkin = true) {
             bot.push(lineid, "您已成功註冊!\nID:" + lineid);
@@ -336,8 +336,8 @@ bot.on('message', function (event) {
 
       }
     });
-  });
-});
+  }});
+
 
 const app = express();
 app.post('/', bot.parser());

@@ -138,7 +138,7 @@ var config = {
 
 var db = firebase.database();
 
- firebase.database().ref('/Users/' + LINEID).once('value').then(function(snapshot) {
+ firebase.database().ref('/Users/' + lineid).once('value').then(function(snapshot) {
     console.log(snapshot.val());
   });
 

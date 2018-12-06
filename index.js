@@ -71,9 +71,6 @@ bot.on('message', function (event) {
   //   return;
   // }
 
-<script src="https://www.gstatic.com/firebasejs/5.6.0/firebase.js"></script>
-<script>
-  // Initialize Firebase
   var config = {
     apiKey: "AIzaSyD789wa7n6FCRi8eDyrAwmjNDHYw1mAlzo",
     authDomain: "myskrboot.firebaseapp.com",
@@ -83,7 +80,6 @@ bot.on('message', function (event) {
     messagingSenderId: "157912946057"
   };
   firebase.initializeApp(config);
-</script>
 
 firebase.initializeApp(config);
 var db = firebase.database();

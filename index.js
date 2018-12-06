@@ -387,58 +387,10 @@ app.post('/data', [bodyParser.json(), bodyParser.urlencoded({ extended: false })
       });
     }
 });
-
-const app = express();
-app.post('/', bot.parser());
-app.get('/', function (req, res) {
     res.sendfile(__dirname + '/views/index.html');
     console.log(res.sendfile);
 });
 
-app.post('/data', [bodyParser.json(), bodyParser.urlencoded({extended: false})], function (req, res) {
-    // console.log(req.body);
-    let reqJson = req.body;
-    if (!reqJson.TYPE) {
-        res.status(501).send('Bad Request');
-        return;
-    }
-    switch (reqJson.TYPE) {
-        case "QUERY":
-            let users = fireBaseCollector.getUsers();
-            let sendData = [];
-            users.forEach(function (e) {
-                sendData.push({NAME: e.NAME, NUMBER: e.NUMBER, PASSWORD: e.PASSWORD, LINEID: e.LINEID, BIND: e.BIND});
-            });
-            res.send(sendData);
-            break;
-        case "ADD":
-            fireBaseCollector.addUser(reqJson.DATA.NAME, reqJson.DATA.NUMBER, reqJson.DATA.PASSWORD);
-            res.sendStatus(200);
-            break;
-        case "REMOVE":
-            fireBaseCollector.removeUser(reqJson.USER.BIND);
-            if (reqJson.USER.LINEID) {
-                let data = find(joinList, "LINEID", reqJson.USER.LINEID);
-                if (data) {
-                    joinList.splice(data[1], 1);
-                    broadcast("online", {TYPE: "REMOVE", LINEID: reqJson.USER.LINEID});
-                    bot.getUserProfile(reqJson.USER.LINEID).then(function (profile) {
-                        let d = {LINEID: reqJson.USER.LINEID, NAME: profile.displayName};
-                        unknowjoinList.push(d);
-                        broadcast("online", {TYPE: "ADD", UNKNOWN: true, DATA: d})
-                    })
-                }
-            }
-            res.sendStatus(200);
-            break;
-        case "ONLINE":
-            res.send({
-                JL: joinList,
-                UK: unknowjoinList
-            });
-            break;
-    }
-});
 app.set('/views', path.join(__dirname, 'views'));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 

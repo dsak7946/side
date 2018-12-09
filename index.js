@@ -137,6 +137,7 @@ bot.on('message', function (event) {
     let requestMessage = event.message.text;
     let lineid = event.source.userId;
     let data = find(users, "userid", lineid);
+	
     if (data) {
         data[0].check(event);
     } else {
@@ -172,9 +173,6 @@ bot.on('message', function (event) {
             return;
         }
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
-		firebase.database().ref('/Users/' + lineid).once('value').then(function(snapshot) {
-		console.log(snapshot.val());
-		
       if (respone) {
         bot.push(lineid, respone);
       } else {

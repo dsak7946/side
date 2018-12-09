@@ -185,7 +185,7 @@ bot.on('message', function (event) {
           bot.push(lineid, "目前有" + (people_num) + "人");
         }
         else if (requestMessage == "我要註冊") {
-			for(int i = 1; i <= 10; i++){
+			for(var i = 1; i <= 10; i++){
 				number = i;
 			let name = requestMessage.replace("");
             let lineid = event.source.userId;

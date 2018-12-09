@@ -173,7 +173,7 @@ bot.on('message', function (event) {
             return;
         }
         fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
-      if (respone) {
+		if (respone) {
         bot.push(lineid, respone);
       } else {
         if (requestMessage == "注意事項") {
@@ -324,8 +324,8 @@ bot.on('message', function (event) {
         }
 
       }
-    }, true);
-});}});
+    });
+}});
 const app = express();
 app.post('/', bot.parser());
 app.get('/', function (req, res) {

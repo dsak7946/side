@@ -172,22 +172,22 @@ bot.on('message', function (event) {
         else if (requestMessage == "當前人數") {
           bot.push(lineid, "目前有" + (people_num) + "人");
         }
-        else if (requestMessage == "我要註冊") {
+        else if (requestMessage.indexOf("我要註冊") >= 0) {
 			for(let i = 1; i <= 10; i++){
 				number = i;
             let lineid = event.source.userId;
             let user = fireBaseCollector.getlineid(lineid);
-			 if (!user){
-				 event.reply(["請輸入使用者名稱:"]);
-				 let useridd = requestMessage.replace("");
-				 if(useridd = requestMessage.replace("")){
-				bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
-				fireBaseCollector.addUser(useridd,number,lineid);
-				event.reply("已註冊成功");
+			 if (user){
+				  event.reply("已經重複註冊瞜!!");
 				break;
 				}
 				else {
-                event.reply("已經重複註冊瞜!!");
+					 event.reply(["請輸入使用者名稱:"]);
+				 if(useridd = requestMessage.replace("")){
+				let useridd = requestMessage.replace("");
+				bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
+				fireBaseCollector.addUser(useridd,number,lineid);
+				event.reply("已註冊成功");
 				break;
 			 }
 			 }

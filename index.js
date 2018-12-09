@@ -145,6 +145,8 @@ bot.on('message', function (event) {
             let bindId = requestMessage.replace("綁定", "");
             let lineid = event.source.userId;
             let user = fireBaseCollector.bind(lineid, bindId);
+			let x = fireBaseCollector.getlineid(lineid);
+			let number = 0;
             if (user) {
                 broadcast("user", {TYPE: "UPDATE_USER"});
                 event.reply(["綁定成功!", "歡迎 " + user.NAME + " 使用該系統"]);
@@ -183,27 +185,23 @@ bot.on('message', function (event) {
           bot.push(lineid, "目前有" + (people_num) + "人");
         }
         else if (requestMessage == "我要註冊") {
-			if (snapshot.val() = lineid)
-          var checkin = Boolean(true);
-          if (checkin = true) {
-            bot.push(lineid, "您已成功註冊!\nID:" + lineid);
-            aaa = 1;
-            var gettuser = fireBaseCollector.getUsers();
-            if (gettuser) {
-              // User is signed in.
-              bot.push(lineid, "success");
-            } else {
-              bot.push(lineid, "faild");
-              // No user is signed in.
-            }
-          }
-          else {
-            bot.push(lineid, "您已註冊過");
-          }
-          // var useridd = event.message.text;
-          // bot.push(lineid, "您輸入的使用者名稱為：" + (useridd));
-          fireBaseCollector.addUser(lineid);
-        }
+			for(int i = 1; i <= 10; i++){
+				number = i;
+			let name = requestMessage.replace("");
+            let lineid = event.source.userId;
+            let user = fireBaseCollector.bind(lineid, bindId);
+			 if (!user){
+				 event.reply(["請輸入使用者名稱:"]);
+				 var useridd = event.message.text;
+				 if(useridd = event.message.text){
+				bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
+				fireBaseCollector.addUser(useridd,number,lineid);
+				event.reply("已註冊成功");
+				}
+		}}}
+             else {
+                event.reply("已經重複註冊瞜!!");
+			 }
         else if (requestMessage == "天氣資訊") {
           bot.push(
             lineid,

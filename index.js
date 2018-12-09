@@ -131,9 +131,9 @@ bot.on('message', function (event) {
         data[0].check(event);
     } else {
         if (requestMessage.indexOf("綁定") >= 0) {
-            var bindId = requestMessage.replace("綁定", "");
-            var lineid = event.source.userId;
-            var user = fireBaseCollector.bind(lineid, bindId);
+            let bindId = requestMessage.replace("綁定", "");
+            let lineid = event.source.userId;
+            let user = fireBaseCollector.bind(lineid, bindId);
 			var number = 0;
             if (user) {
                 broadcast("user", {TYPE: "UPDATE_USER"});
@@ -173,13 +173,13 @@ bot.on('message', function (event) {
           bot.push(lineid, "目前有" + (people_num) + "人");
         }
         else if (requestMessage == "我要註冊") {
-			for(var i = 1; i <= 10; i++){
+			for(let i = 1; i <= 10; i++){
 				number = i;
             let lineid = event.source.userId;
             let user = fireBaseCollector.getlineid(lineid);
 			 if (!user){
 				 event.reply(["請輸入使用者名稱:"]);
-				 var useridd = requestMessage.replace("");
+				 let useridd = requestMessage.replace("");
 				 if(useridd = event.message.text){
 				bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
 				fireBaseCollector.addUser(useridd,number,lineid);

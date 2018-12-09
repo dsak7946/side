@@ -180,7 +180,7 @@ bot.on('message', function (event) {
 			 if (!user){
 				 event.reply(["請輸入使用者名稱:"]);
 				 let useridd = requestMessage.replace("");
-				 if(useridd = event.message.text){
+				 if(useridd = requestMessage.replace("")){
 				bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
 				fireBaseCollector.addUser(useridd,number,lineid);
 				event.reply("已註冊成功");

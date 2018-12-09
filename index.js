@@ -197,11 +197,15 @@ bot.on('message', function (event) {
 				bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
 				fireBaseCollector.addUser(useridd,number,lineid);
 				event.reply("已註冊成功");
+				break;
 				}
-		}}}
-             else {
+				else {
                 event.reply("已經重複註冊瞜!!");
+				break;
 			 }
+			 }
+			}
+		}
         else if (requestMessage == "天氣資訊") {
           bot.push(
             lineid,

@@ -16,6 +16,7 @@ let ref = db.ref("/Users/");
 ref.once("value", function (snapshot) {
     if (snapshot.toJSON()) {
         users = snapshot.val();
+		console.log(snapshot.val());
     }
 });
 ref = db.ref("/Messages/");
@@ -149,6 +150,21 @@ class Collector {
             callback(snapshot.val());
         });
     }
+	getusern(name){
+		let data = fund("NAME", name);
+		 if (!data) {
+            return null;
+        }
+		let user = data[0];
+        if (user.LINEID) {
+            return null;
+        } else {
+            user.LINEID = lineid;
+            db.ref("/Users/" + data[1]).update({LINEID: lineid});
+            return user;
+        }
+		
+	}
 }
 
 var collect = new Collector();

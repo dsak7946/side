@@ -60,6 +60,7 @@ var auth = new googleAuth();
 var oauth2Client = new auth.OAuth2(myClientSecret.installed.client_id, myClientSecret.installed.client_secret,
     myClientSecret.installed.redirect_uris[0]);
 
+
 //底下輸入sheetsapi.json檔案的內容
 oauth2Client.credentials = {
     "access_token": "ya29.GlsyBqOC4eCB5NPDgl9nOYJhPLFGuJDJbMA2INQF9Umh-ZLYXWtb6QTFUGN-DdAxuQM5Bgi36IYLKV9IrNiMql1zWQcJYansuRGUagfTna5xBCckyXmXM2b5CgQo",
@@ -122,7 +123,7 @@ function appendMyRow(data) {
         }
     });
 }
-my_sheet.getRows( 1, function(err, row_data){
+mySheetId.getRows( 1, function(err, row_data){
 	// 發生錯誤時
 	if (err) {
 		console.log( err );

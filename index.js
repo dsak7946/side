@@ -121,17 +121,6 @@ function appendMyRow(data) {
         }
     });
 }
-//fireBase資料PULL
-var config = {
-    apiKey: "AIzaSyD789wa7n6FCRi8eDyrAwmjNDHYw1mAlzo",
-    authDomain: "myskrboot.firebaseapp.com",
-    databaseURL: "https://myskrboot.firebaseio.com",
-    projectId: "myskrboot",
-    storageBucket: "myskrboot.appspot.com",
-    messagingSenderId: "157912946057"
-  };
-var db = firebase.database();
-//LineBot收到user的文字訊息時的處理函式
 bot.on('message', function (event) {
     console.log(event);
     let requestMessage = event.message.text;
@@ -142,11 +131,10 @@ bot.on('message', function (event) {
         data[0].check(event);
     } else {
         if (requestMessage.indexOf("綁定") >= 0) {
-            let bindId = requestMessage.replace("綁定", "");
-            let lineid = event.source.userId;
-            let user = fireBaseCollector.bind(lineid, bindId);
-			let x = fireBaseCollector.getlineid(lineid);
-			let number = 0;
+            var bindId = requestMessage.replace("綁定", "");
+            var lineid = event.source.userId;
+            var user = fireBaseCollector.bind(lineid, bindId);
+			var number = 0;
             if (user) {
                 broadcast("user", {TYPE: "UPDATE_USER"});
                 event.reply(["綁定成功!", "歡迎 " + user.NAME + " 使用該系統"]);
@@ -187,12 +175,11 @@ bot.on('message', function (event) {
         else if (requestMessage == "我要註冊") {
 			for(var i = 1; i <= 10; i++){
 				number = i;
-			let name = requestMessage.replace("");
             let lineid = event.source.userId;
-            let user = fireBaseCollector.bind(lineid, bindId);
+            let user = fireBaseCollector.getlineid(lineid);
 			 if (!user){
 				 event.reply(["請輸入使用者名稱:"]);
-				 var useridd = event.message.text;
+				 var useridd = requestMessage.replace("");
 				 if(useridd = event.message.text){
 				bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
 				fireBaseCollector.addUser(useridd,number,lineid);

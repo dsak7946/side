@@ -164,6 +164,21 @@ class Collector {
             return user;
         }
 	}
+	getlineid(lineid){
+		let data = fund("LINEID", lineid);
+		 if (!data) {
+            return null;
+        }
+		let user = data[0];
+        if (user.LINEID) {
+            return null;
+        } else {
+            user.LINEID = lineid;
+            db.ref("/Users/" + data[1]).update({LINEID: lineid});
+            return user;
+        }
+		
+	}
 	
 }
 

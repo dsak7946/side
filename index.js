@@ -74,6 +74,7 @@ var myQuestions = [];
 var users = [];
 var totalSteps = 0;
 var myReplies = [];
+var saveFileName = 'spreadsheet.json';
 //程式啟動後會去讀取試算表內的問題
 getQuestions();
 
@@ -121,6 +122,19 @@ function appendMyRow(data) {
         }
     });
 }
+my_sheet.getRows( 1, function(err, row_data){
+	// 發生錯誤時
+	if (err) {
+		console.log( err );
+	}
+	console.log(row_data);			//每列資料	
+	// console.log(row_data.length); 	//資料總數
+	// 在此處理你的資料
+	// 儲存成 JSON
+	// fs.writeFile 使用 File System 的 writeFile 方法做儲存
+	// 傳入三個參數（ 存檔名, 資料, 格式 ）
+	fs.writeFile( saveFileName, JSON.stringify( row_data ), 'utf8');
+});
 bot.on('message', function (event) {
     console.log(event);
     let requestMessage = event.message.text;

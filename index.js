@@ -183,8 +183,10 @@ bot.on('message', function (event) {
 				}
 				else {
 					 event.reply(["請輸入使用者名稱:"]);
-				 if(useridd = requestMessage.replace("")){
-				let useridd = requestMessage.replace("");
+					  requestMessage = ("");
+					 let useridd = requestMessage.replace("") 
+				 if(requestMessage.replace("")= true ){
+				
 				bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
 				fireBaseCollector.addUser(useridd,number,lineid);
 				event.reply("已註冊成功");

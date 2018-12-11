@@ -1,7 +1,7 @@
 const firebase = require("firebase");
 
-const PROJECT_ID = "csie-3d7dc";
-const API_KEY = "";
+const PROJECT_ID = "myskrboot";
+const API_KEY = "AIzaSyD789wa7n6FCRi8eDyrAwmjNDHYw1mAlzo";
 
 firebase.initializeApp({
     apiKey: API_KEY,
@@ -16,6 +16,7 @@ let ref = db.ref("/Users/");
 ref.once("value", function (snapshot) {
     if (snapshot.toJSON()) {
         users = snapshot.val();
+		console.log(snapshot.val());
     }
 });
 ref = db.ref("/Messages/");
@@ -49,7 +50,6 @@ function fund(s, v) {
 }
 
 class Collector {
-
     getUsers() {
         return users;
     }
@@ -68,16 +68,33 @@ class Collector {
             return false;
         }
     }
-    addUser(lineid, userid) {
+	getBindid(bindid){
+		let data = fund("BIND", bindid);
+		 if (!data) {
+            return null;
+        }
+        let user = data[0];
+        if (user.LINEID) {
+            return null;
+        } else {
+            user.LINEID = lineid;
+            db.ref("/Users/" + data[1]).update({LINEID: lineid});
+            return user;
+        }
+	}
+    addUser(name, number, password) {
         let user = {
-            LINEID: lineid,
-            NAME: userid,
+            NAME: name,
+            NUMBER: number,
+            PASSWORD: password,
+            BIND: guid(),
+            JOINTIME: 0,
+            LINEID: "",
             STATUS: "LEAVE"
         };
-
         users.push(user);
         db.ref("/Users/").set(users);
-        console.log(user.LINEID);
+        return user;
     }
 
     bind(lineid, bindid) {
@@ -90,7 +107,7 @@ class Collector {
             return null;
         } else {
             user.LINEID = lineid;
-            db.ref("/Users/" + data[1]).update({ LINEID: lineid });
+            db.ref("/Users/" + data[1]).update({LINEID: lineid});
             return user;
         }
     }
@@ -103,7 +120,7 @@ class Collector {
         let user = data[0];
         if (user) {
             user.STATUS = "LEAVE";
-            db.ref("/Users/" + data[1]).update({ STATUS: "LEAVE" });
+            db.ref("/Users/" + data[1]).update({STATUS: "LEAVE"});
             return true;
         }
         return false;
@@ -121,18 +138,33 @@ class Collector {
         if (user) {
             user.JOINTIME = time
             user.STATUS = "ENTER";
-            db.ref("/Users/" + data[1]).update({ STATUS: "JOIN", JOINTIME: user.JOINTIME });
+            db.ref("/Users/" + data[1]).update({STATUS: "JOIN", JOINTIME: user.JOINTIME});
             return user;
         }
         return null;
     }
 
-    getResponeMessage(request, callback) {
+    getResponeMessage(request,callback){
         let ref = db.ref("/Messages/" + request);
         ref.once("value", function (snapshot) {
             callback(snapshot.val());
         });
     }
+	getusern(name){
+		let data = fund("NAME", name);
+		 if (!data) {
+            return null;
+        }
+		let user = data[0];
+        if (user.LINEID) {
+            return null;
+        } else {
+            user.LINEID = lineid;
+            db.ref("/Users/" + data[1]).update({LINEID: lineid});
+            return user;
+        }
+	}
+	
 }
 
 var collect = new Collector();

@@ -1,184 +1,78 @@
-class UserData {
-    constructor(userid) {
-        this.userid = userid;
-        this.createDate = new Date();
-        this.data = [];
-        this.ready = false;
-    }
-    check(event) {
-        if (!this.ready) {
-            event.reply(myQuestions[this.data.length][0]);
-            this.ready = true;
-        } else {
-            var message = [];
-            message.push(myQuestions[this.data.length][1]);
-            this.data.push(event.message.text);
-            if (this.data.length != totalSteps) {
-                message.push(myQuestions[this.data.length][0]);
-            } else {
-                this.data.splice(0, 0, this.createDate);
-                appendMyRow(this.data);
-
-                fireBaseCollector.bind(event.source.userId,fireBaseCollector.addUser(this.data[4],this.data[4],this.data[7]).BIND);
-
-                let data = find(users, "userid", event.source.userId);
-                users.splice(data[1], 1);
-            }
-            event.reply(message);
-        }
-    }
-}
-
 var linebot = require('linebot');
 var express = require('express');
-var google = require('googleapis');
-var googleAuth = require('google-auth-library');
-var path = require('path');
+var getJSON = require('get-json');
+var people_num = 0;
+const bodyParser = require('body-parser');
 const fireBaseCollector = require('./FireBaseCollector.js');
-var firebase = require("firebase");
+const path = require('path');
 const clientSocket = {};
 const io = require('socket.io');
-const bodyParser = require('body-parser');
+_getWeather();
+//LINE deploy_info
 var bot = linebot({
     channelId: '1611184250',
     channelSecret: 'fc0dde92ef9e9b182bc526a240c18346',
     channelAccessToken: 'fo/507dPjAsjw/gAjXcas2aKo94L9l5QOLrDqTkQ6fcsy5lDv4uRGAGHd0ck8DAumYuGVRYO9pNMJXWrcohw/2KnyeD0XJ1y2fW7fdgfpzmd5ChC5KuAV9REP9kFNlFubCii5jKuSVY81oDn3KTvRwdB04t89/1O/w1cDnyilFU='
 });
-//底下輸入client_secret.json檔案的內容
-var myClientSecret = {
-    "installed": {
-        "client_id": "583651028506-fvmng0ph5iesllm8jifa3s7j0lorvvof.apps.googleusercontent.com",
-        "project_id": "coral-smoke-218120",
-        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-        "token_uri": "https://www.googleapis.com/oauth2/v3/token",
-        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-        "client_secret": "gBtSIM6stlySHqzQIbVXuMFI",
-        "redirect_uris": ["urn:ietf:wg:oauth:2.0:oob", "http://localhost"]
-    }
-}
-var auth = new googleAuth();
-var oauth2Client = new auth.OAuth2(myClientSecret.installed.client_id, myClientSecret.installed.client_secret,
-    myClientSecret.installed.redirect_uris[0]);
+var wt = [];
+var timer;
+var buttonsImageURL_N = 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Northern_Taiwan_official_determined.svg/240px-Northern_Taiwan_official_determined.svg.png';
+var buttonsImageURL_M = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Central_Taiwan_official_determined.svg/240px-Central_Taiwan_official_determined.svg.png';
+var buttonsImageURL_S = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Southern_Taiwan_official_determined.svg/240px-Southern_Taiwan_official_determined.svg.png';
+var buttonsImageURL_E = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Eastern_Taiwan_official_determined.svg/240px-Eastern_Taiwan_official_determined.svg.png';
+var buttonsImageURL_F = 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Fujian_Province_in_Taiwan_%28special_marker%29.svg/240px-Fujian_Province_in_Taiwan_%28special_marker%29.svg.png';
 
-
-//底下輸入sheetsapi.json檔案的內容
-oauth2Client.credentials = {
-    "access_token": "ya29.GlsyBqOC4eCB5NPDgl9nOYJhPLFGuJDJbMA2INQF9Umh-ZLYXWtb6QTFUGN-DdAxuQM5Bgi36IYLKV9IrNiMql1zWQcJYansuRGUagfTna5xBCckyXmXM2b5CgQo",
-    "refresh_token": "1/cSQDIaLXFErKVfdT2-DH0ADjMSIU1L2QKFfgLWZpnKk",
-    "scope": "https://www.googleapis.com/auth/spreadsheets",
-    "token_type": "Bearer",
-    "expiry_date": "153919994486"
-}
-//試算表的ID，引號不能刪掉
-var mySheetId = '1xI2UxdRH0AJd2h5t0LcW66SjLOrZ3RiBcRMz1zEzd64';
-var myQuestions = [];
-var users = [];
-var totalSteps = 0;
-var myReplies = [];
-var saveFileName = 'spreadsheet.json';
-//程式啟動後會去讀取試算表內的問題
-getQuestions();
-
-
-//這是讀取問題的函式
-function getQuestions() {
-    var sheets = google.sheets('v4');
-    sheets.spreadsheets.values.get({
-        auth: oauth2Client,
-        spreadsheetId: mySheetId,
-        range: encodeURI('q'),
-    }, function (err, response) {
-        if (err) {
-            console.log('load API q：' + err);
-            return;
-        }
-        var rows = response.values;
-        if (rows.length == 0) {
-            console.log('No data found.');
-        } else {
-            myQuestions = rows;
-            totalSteps = myQuestions.length;
-            console.log('您的問題已經下載完畢');
-        }
-    });
-}
-
-//這是將取得的資料儲存進試算表的函式
-function appendMyRow(data) {
-    var request = {
-        auth: oauth2Client,
-        spreadsheetId: mySheetId,
-        range: encodeURI('shtees1'),
-        insertDataOption: 'INSERT_ROWS',
-        valueInputOption: 'RAW',
-        resource: {
-            "values": [data]
-        }
-    };
-    var sheets = google.sheets('v4');
-    sheets.spreadsheets.values.append(request, function (err, response) {
-        if (err) {
-            console.log('The API returned an error: ' + err);
-            return;
-        }
-    });
-}
-mySheetId.getRows( 1, function(err, row_data){
-	// 發生錯誤時
-	if (err) {
-		console.log( err );
-	}
-	console.log(row_data);			//每列資料	
-	// console.log(row_data.length); 	//資料總數
-	// 在此處理你的資料
-	// 儲存成 JSON
-	// fs.writeFile 使用 File System 的 writeFile 方法做儲存
-	// 傳入三個參數（ 存檔名, 資料, 格式 ）
-	fs.writeFile( saveFileName, JSON.stringify( row_data ), 'utf8');
-});
 bot.on('message', function (event) {
-    console.log(event);
-    let requestMessage = event.message.text;
-    let lineid = event.source.userId;
-    let data = find(users, "userid", lineid);
-	
-    if (data) {
-        data[0].check(event);
-    } else {
-        if (requestMessage.indexOf("綁定") >= 0) {
-            let bindId = requestMessage.replace("綁定", "");
-            let lineid = event.source.userId;
-            let user = fireBaseCollector.bind(lineid, bindId);
-			var number = 0;
-            if (user) {
-                broadcast("user", {TYPE: "UPDATE_USER"});
-                event.reply(["綁定成功!", "歡迎 " + user.NAME + " 使用該系統"]);
-                let data = find(unknowjoinList, "LINEID", lineid);
-                if (data) {
-                    unknowjoinList.splice(data[1], 1);
-                    fireBaseCollector.userEnter(lineid, data.TIME);
-                    let d = {
-                        LINEID: lineid,
-                        NAME: user.NAME,
-                        NUMBER: user.NUMBER,
-                        TIME: data.TIME
-                    };
-                    joinList.push(d);
-                    broadcast("online", {TYPE: "REMOVE", LINEID: lineid})
-                    broadcast("online", {TYPE: "ADD", UNKNOWN: false, DATA: d})
-                }
-            } else {
-                event.reply("該綁定碼不存在或已經被綁定");
-            }
-            return;
-        } else if (requestMessage.indexOf("我要報名") >= 0) {
-            var userData = new UserData(lineid);
-            userData.check(event);
-            users.push(userData);
-            return;
-        }
-        fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
-		if (respone) {
+
+  //       "你是誰": function (event) {
+  //       event.reply(event.replyToken, "我是ㄐ器人");
+  //       },
+  //       "當前人數": function (event) {
+  //       event.reply(event.replyToken, "目前有" + (people_num) + "人");
+  //       },
+  //       "安全注意事項": function (event) {
+  //       event.reply(event.replyToken), "1.注意掉落物\n2.留意腳邊障礙物\n3.配戴安全帽、安全護目鏡及安全手套\n4.物品不可任意堆置、通道要保持流通"}
+  //       }
+  let requestMessage = event.message.text;
+  let lineid = event.source.userId;
+  var er = 12;
+  var vv = 344;
+  var yh = 445566;
+  var replyMsg = '';
+
+  console.log(event);
+
+  // if (requestMessage=="我要註冊") {
+  //   bot.push(lineid,"您的ID:"+lineid);
+
+  //   // let bindId = requestMessage.replace("綁定", "");
+  //   // let user = fireBaseCollector.bind(lineid, bindId);
+  //   // if (user) {
+  //   //   broadcast("user", { TYPE: "UPDATE_USER" });
+  //   //   event.reply(["註冊成功!", "歡迎 " + user.NAME + " 使用該系統"]);
+  //   //   let data = find(unknowjoinList, "LINEID", lineid);
+  //   //   if (data) {
+  //   //     unknowjoinList.splice(data[1], 1);
+  //   //     fireBaseCollector.userEnter(lineid, data.TIME);
+  //   //     let d = {
+  //   //       LINEID: lineid,
+  //   //       NAME: user.NAME,
+  //   //       NUMBER: user.NUMBER,
+  //   //       TIME: data.TIME
+  //   //     };
+  //   //     joinList.push(d);
+  //   //     broadcast("online", { TYPE: "REMOVE", LINEID: lineid })
+  //   //     broadcast("online", { TYPE: "ADD", UNKNOWN: false, DATA: d })
+  //   //   }
+  //   // } else {
+  //   //   event.reply("該綁定碼不存在或已經被綁定");
+
+  //   return;
+  // } 
+  event.source.profile().then(function (profile) {
+    user = profile.displayName;
+    fireBaseCollector.getResponeMessage(requestMessage, function (respone) {
+      if (respone) {
         bot.push(lineid, respone);
       } else {
         if (requestMessage == "注意事項") {
@@ -187,29 +81,14 @@ bot.on('message', function (event) {
         else if (requestMessage == "當前人數") {
           bot.push(lineid, "目前有" + (people_num) + "人");
         }
-        else if (requestMessage.indexOf("我要註冊") >= 0) {
-			for(let i = 1; i <= 10; i++){
-				number = i;
-            let lineid = event.source.userId;
-            let user = fireBaseCollector.getlineid(lineid);
-			 if (user){
-				  event.reply("已經重複註冊瞜!!");
-				break;
-				}
-				else {
-					 event.reply(["請輸入使用者名稱:"]);
-					  requestMessage = ("");
-					 let useridd = requestMessage.replace("") 
-				 if(requestMessage.replace("")= true ){
-				
-				bot.push(lineid,"您輸入的使用者名稱為："+(useridd));
-				fireBaseCollector.addUser(useridd,number,lineid);
-				event.reply("已註冊成功");
-				break;
-			 }
-			 }
-			}
-		}
+        else if (requestMessage == "我要註冊") {
+          bot.push(lineid, "您的ID:" + lineid);
+          event.reply(["請輸入使用者名稱:"]);
+          // bot.push(lineid,"請輸入使用者名稱:",);
+          var useridd = event.message.text;
+          bot.push(lineid, "您輸入的使用者名稱為：" + (useridd));
+          fireBaseCollector.addUser(useridd, vv, lineid);
+        }
         else if (requestMessage == "天氣資訊") {
           bot.push(
             lineid,
@@ -331,7 +210,9 @@ bot.on('message', function (event) {
 
       }
     });
-}});
+  });
+});
+
 const app = express();
 app.post('/', bot.parser());
 app.get('/', function (req, res) {
@@ -378,89 +259,128 @@ app.post('/data', [bodyParser.json(), bodyParser.urlencoded({ extended: false })
         JL: joinList,
         UK: unknowjoinList
       });
-    }
+      break;
+  }
 });
 app.set('/views', path.join(__dirname, 'views'));
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
 const server = app.listen(process.env.PORT || 8080, function () {
-    let port = server.address().port;
-    console.log("App now running on port", port);
+  let port = server.address().port;
+  console.log("App now running on port", port);
 });
 
 io.listen(server).sockets.on('connection', function (socket) {
-    clientSocket[socket.id] = socket;
-    // console.log('connection: ' + socket.id);
-    socket.on('disconnect', function () {
-        // console.log('disconnect: ' + socket.id);
-        delete clientSocket[socket.id];
-    });
+  clientSocket[socket.id] = socket;
+  // console.log('connection: ' + socket.id);
+  socket.on('disconnect', function () {
+    // console.log('disconnect: ' + socket.id);
+    delete clientSocket[socket.id];
+  });
 });
+
+
 function broadcast(channel, msg) {
-    // console.log(msg);
-    for (let id in clientSocket) {
-        clientSocket[id].emit(channel, JSON.stringify(msg));
-    }
+  // console.log(msg);
+  for (let id in clientSocket) {
+    clientSocket[id].emit(channel, JSON.stringify(msg));
+  }
 }
 
 var joinList = [];
 var unknowjoinList = [];
 
+
+
+//Repeat Message
+// setTimeout(function () {
+//   var userId = 'U856be5532e1fb992214c33c2b428a8fc';
+//   var sendMsg = "Welcome to Popo's LINE-BOT";
+//   bot.push(userId, sendMsg);
+//   console.log('send: ' + sendMsg);
+// }, 5000);
+
+//beacon event
 bot.on('beacon', function (event) {
-    let lineid = event.source.userId;
-    // console.log(event.beacon.type + " - " + lineid);
-    switch (event.beacon.type) {
-        case 'enter':
-            let user = fireBaseCollector.userEnter(lineid);
-            // console.log("user : " + !!user);
-            if (user) {
-                if (!find(joinList, "LINEID", lineid)) {
-                    let d = {LINEID: lineid, NAME: user.NAME, NUMBER: user.NUMBER, TIME: user.JOINTIME};
-                    joinList.push(d);
-                    broadcast("online", {TYPE: "ADD", UNKNOWN: false, DATA: d})
-                }
-            } else {
-                if (!find(unknowjoinList, "LINEID", lineid)) {
-                    event.source.profile().then(function (profile) {
-                        let d = {LINEID: lineid, NAME: profile.displayName, TIME: new Date().getTime()};
-                        unknowjoinList.push(d);
-                        broadcast("online", {TYPE: "ADD", UNKNOWN: true, DATA: d})
-                    })
-                }
-            }
-            break;
-        case 'leave':
-            let data = find(unknowjoinList, "LINEID", lineid);
-            if (data) {
-                unknowjoinList.splice(data[1], 1);
-            }
-            data = find(joinList, "LINEID", lineid);
-            if (data) {
-                joinList.splice(data[1], 1);
-            }
-            fireBaseCollector.userLeave(lineid);
-            broadcast("online", {TYPE: "REMOVE", LINEID: lineid})
-            break;
-    }});
+  let lineid = event.source.userId;
+  console.log('beacon: ' + event.beacon.type);
+  //console.log(event); //Beacon's Json log
+  var respone;
+  switch (event.beacon.type) {
+    case 'enter':
+      people_num++;
+      respone = '你進入教室 當前人數:' + (people_num);
+      let user = fireBaseCollector.userEnter(lineid);
+      // console.log("user : " + !!user);
+      if (user) {
+        if (!find(joinList, "LINEID", lineid)) {
+          let d = { LINEID: lineid, NAME: user.NAME, NUMBER: user.NUMBER, TIME: user.JOINTIME };
+          joinList.push(d);
+          broadcast("online", { TYPE: "ADD", UNKNOWN: false, DATA: d })
+        }
+      } else {
+        if (!find(unknowjoinList, "LINEID", lineid)) {
+          event.source.profile().then(function (profile) {
+            let d = { LINEID: lineid, NAME: profile.displayName, TIME: new Date().getTime() };
+            unknowjoinList.push(d);
+            broadcast("online", { TYPE: "ADD", UNKNOWN: true, DATA: d })
+          })
+        }
+      }
+      break;
+
+    case 'leave':
+      people_num--;
+      if (people_num < 0) {
+        people_num = 0;
+      }
+      respone = '你離開教室 當前人數:' + (people_num);
+      let data = find(unknowjoinList, "LINEID", lineid);
+      if (data) {
+        unknowjoinList.splice(data[1], 1);
+      }
+      data = find(joinList, "LINEID", lineid);
+      if (data) {
+        joinList.splice(data[1], 1);
+      }
+      fireBaseCollector.userLeave(lineid);
+      broadcast("online", { TYPE: "REMOVE", LINEID: lineid })
+      break;
+
+    default:
+      respone = '我壞掉了';
+  }
+  event.reply(respone);
+});
+
+function _getWeather() {
+  clearTimeout(timer);
+  //https://data.gov.tw/dataset/45131
+  getJSON('http://opendata.epa.gov.tw/ws/Data/ATM00698/?$format=json', function (error, response) {
+    response.forEach(function (e, i) {
+      wt[i] = [];
+      wt[i][0] = e.SiteName;
+      wt[i][1] = e['Weather'];
+      wt[i][2] = e['Temperature'];
+      wt[i][3] = e['Visibility'];
+      wt[i][4] = e['AtmosphericPressure'];
+      wt[i][5] = e['WindPower'];
+      wt[i][6] = e['WindDirection'];
+      wt[i][7] = e['Rainfall1day'];
+      wt[i][8] = e['DataCreationDate'];
+    });
+  });
+  timer = setInterval(_getWeather, 3600000);
+}
+
 
 
 function find(arr, s, v) {
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i][s] === v) {
-            return [arr[i], i];
-        }
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i][s] === v) {
+      return [arr[i], i];
     }
-    return null;
+  }
+  return null;
 }
 
-//這是發送訊息給user的函式
-function sendMessage(eve, msg) {
-    eve.reply(msg).then(function (data) {
-        // success
-        return true;
-    }).catch(function (error) {
-        // error
-        return false;
-    });
-}
-const linebotParser = bot.parser();
-app.post('/', linebotParser);

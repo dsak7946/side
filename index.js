@@ -28,7 +28,7 @@ class UserData {
         }
     }
 }
-
+var getJSON = require('get-json');
 var people_num = 0;
 var linebot = require('linebot');
 var express = require('express');

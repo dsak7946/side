@@ -68,18 +68,16 @@ class Collector {
             return false;
         }
     }
-   addUser(name, number, password) {
+    addUser(lineid, userid) {
         let user = {
-            NAME: name,
-            NUMBER: number,
-            PASSWORD: password,
-            BIND: guid(),
-            JOINTIME: 0,
-            LINEID: "",
+            LINEID: lineid,
+            NAME: userid,
             STATUS: "LEAVE"
         };
+
         users.push(user);
         db.ref("/Users/").set(users);
+        console.log(user.LINEID);
     }
 
     bind(lineid, bindid) {

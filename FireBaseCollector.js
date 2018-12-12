@@ -58,8 +58,8 @@ class Collector {
         return fund("LINEID", lineid);
     }
 
-    removeUser(bindid) {
-        let data = fund("BIND", bindid);
+    removeUser(lineid) {
+        let data = fund("LINEID", lineid);
         if (data) {
             users.splice(data[1], 1);
             db.ref("/Users/").set(users);

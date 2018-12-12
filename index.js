@@ -1,3 +1,30 @@
+class UserData {
+    constructor(userid) {
+        this.userid = userid;
+        this.createDate = new Date();
+        this.data = [];
+        this.ready = false;
+    }
+    check(event) {
+        if (!this.ready) {
+            event.reply(myQuestions[this.data.length][0]);
+            this.ready = true;
+        } else {
+            var message = [];
+            message.push(myQuestions[this.data.length][1]);
+            this.data.push(event.message.text);
+            if (this.data.length != totalSteps) {
+                message.push(myQuestions[this.data.length][0]);
+            } else {
+                this.data.splice(0, 0, this.createDate);
+                appendMyRow(this.data);
+                let data = find(users, "userid", event.source.userId);
+                users.splice(data[1], 1);
+            }
+            event.reply(message);
+        }
+    }
+}
 var linebot = require('linebot');
 var express = require('express');
 var getJSON = require('get-json');
@@ -17,6 +44,86 @@ var bot = linebot({
     channelAccessToken: 'fo/507dPjAsjw/gAjXcas2aKo94L9l5QOLrDqTkQ6fcsy5lDv4uRGAGHd0ck8DAumYuGVRYO9pNMJXWrcohw/2KnyeD0XJ1y2fW7fdgfpzmd5ChC5KuAV9REP9kFNlFubCii5jKuSVY81oDn3KTvRwdB04t89/1O/w1cDnyilFU='
 });
 
+var myClientSecret = {
+    "installed": {
+        "client_id": "583651028506-fvmng0ph5iesllm8jifa3s7j0lorvvof.apps.googleusercontent.com",
+        "project_id": "coral-smoke-218120",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://www.googleapis.com/oauth2/v3/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_secret": "gBtSIM6stlySHqzQIbVXuMFI",
+        "redirect_uris": ["urn:ietf:wg:oauth:2.0:oob", "http://localhost"]
+    }
+}
+
+var auth = new googleAuth();
+var oauth2Client = new auth.OAuth2(myClientSecret.installed.client_id, myClientSecret.installed.client_secret,
+    myClientSecret.installed.redirect_uris[0]);
+
+//底下輸入sheetsapi.json檔案的內容
+oauth2Client.credentials = {
+    "access_token": "ya29.GlsyBqOC4eCB5NPDgl9nOYJhPLFGuJDJbMA2INQF9Umh-ZLYXWtb6QTFUGN-DdAxuQM5Bgi36IYLKV9IrNiMql1zWQcJYansuRGUagfTna5xBCckyXmXM2b5CgQo",
+    "refresh_token": "1/cSQDIaLXFErKVfdT2-DH0ADjMSIU1L2QKFfgLWZpnKk",
+    "scope": "https://www.googleapis.com/auth/spreadsheets",
+    "token_type": "Bearer",
+    "expiry_date": 1539199944860
+}
+
+//試算表的ID，引號不能刪掉
+var mySheetId = '1xI2UxdRH0AJd2h5t0LcW66SjLOrZ3RiBcRMz1zEzd64';
+
+var myQuestions = [];
+var users = [];
+var totalSteps = 0;
+var myReplies = [];
+
+//程式啟動後會去讀取試算表內的問題
+getQuestions();
+
+
+//這是讀取問題的函式
+function getQuestions() {
+    var sheets = google.sheets('v4');
+    sheets.spreadsheets.values.get({
+        auth: oauth2Client,
+        spreadsheetId: mySheetId,
+        range: encodeURI('q'),
+    }, function (err, response) {
+        if (err) {
+            console.log('load API q：' + err);
+            return;
+        }
+        var rows = response.values;
+        if (rows.length == 0) {
+            console.log('No data found.');
+        } else {
+            myQuestions = rows;
+            totalSteps = myQuestions.length;
+            console.log('您的問題已經下載完畢');
+        }
+    });
+}
+
+//這是將取得的資料儲存進試算表的函式
+function appendMyRow(data) {
+    var request = {
+        auth: oauth2Client,
+        spreadsheetId: mySheetId,
+        range: encodeURI('shtees1'),
+        insertDataOption: 'INSERT_ROWS',
+        valueInputOption: 'RAW',
+        resource: {
+            "values": [data]
+        }
+    };
+    var sheets = google.sheets('v4');
+    sheets.spreadsheets.values.append(request, function (err, response) {
+        if (err) {
+            console.log('The API returned an error: ' + err);
+            return;
+        }
+    });
+}
 var go = '正常';
 var wt = [];
 var ps = [];
@@ -35,6 +142,19 @@ var JustGps = {
   "longitude": 121.5070476
 }
 bot.on('message', function (event) {
+	let requestMessage = event.message.text;
+    let lineid = event.source.userId;
+    let data = find(users, "userid", lineid);
+	if (data) {
+        data[0].check(event);
+    } else {
+		if (requestMessage.indexOf("我要報名") >= 0) {
+            var userData = new UserData(lineid);
+            userData.check(event);
+            users.push(userData);
+            return;
+        }
+	}
   function _getStatus() {
     // clearTimeout(timer);
     getJSON('https://XXX.XXX.airXb.io/api/v1/sensors/sensorD/2018-12-09/helmet', function (error, response, endstatus) {

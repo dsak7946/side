@@ -104,6 +104,16 @@ bot.on('message', function (event) {
       }
       console.log(fireBaseCollector.getUserByLineId(lineid));
     }
+	else if (requestMessage == "移除使用者"){
+		let checkuser = fireBaseCollector.getUserByLineId(lineid);
+      if (checkuser) {
+        bot.push(lineid, "已將您移除：" + (user));
+		fireBaseCollector.removeUser(lineid);
+      }
+	  else {
+		   bot.push(lineid, "無此使用者ID：" + (user));
+	  }
+	}
     else if (requestMessage == "天氣資訊") {
       bot.push(
         lineid,
@@ -282,15 +292,6 @@ function broadcast(channel, msg) {
 var joinList = [];
 var unknowjoinList = [];
 
-//Repeat Message
-// setTimeout(function () {
-//   var userId = 'U856be5532e1fb992214c33c2b428a8fc';
-//   var sendMsg = "Welcome to Popo's LINE-BOT";
-//   bot.push(userId, sendMsg);
-//   console.log('send: ' + sendMsg);
-// }, 5000);
-
-//beacon event
 bot.on('beacon', function (event) {
   let lineid = event.source.userId;
   console.log('beacon: ' + event.beacon.type);
@@ -342,7 +343,7 @@ bot.on('beacon', function (event) {
   }
   event.reply(respone);
 });
-
+//取得天氣資訊
 function _getWeather() {
   clearTimeout(timer);
   //https://data.gov.tw/dataset/45131

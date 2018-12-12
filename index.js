@@ -199,9 +199,17 @@ event.source.profile().then(function (profile) {   //Loading Firebase message js
       data[0].check(event);
   } else {
   if (requestMessage.indexOf("我要報名") >= 0) {
+    let checkuser = fireBaseCollector.getUserByLineId(lineid);
+    if (!checkuser) {
           var userData = new UserData(lineid);
           userData.check(event);
           users.push(userData);
+          bot.push(lineid, "您已成功註冊!\nID:" + user + "\n註冊ID：" + lineid);    
+      }
+      else {
+        bot.push(lineid, "您已註冊過,ID：" + (user));
+    }
+    console.log(fireBaseCollector.getUserByLineId(lineid));
           return;
       }
   else if (requestMessage == "注意事項") {

@@ -19,6 +19,7 @@ class UserData {
               this.data.splice(0, 0, this.createDate);
               appendMyRow(this.data);
               let data = find(users, "userid", event.source.userId);
+              fireBaseCollector.addUser(event.source.userId,this.data[3]);
               users.splice(data[1], 1);
           }
           event.reply(message);
@@ -144,19 +145,6 @@ var JustGps = {
 "longitude": 121.5070476
 }
 bot.on('message', function (event) {
-let requestMessage = event.message.text;
-  let lineid = event.source.userId;
-  let data = find(users, "userid", lineid);
-if (data) {
-      data[0].check(event);
-  } else {
-  if (requestMessage.indexOf("我要報名") >= 0) {
-          var userData = new UserData(lineid);
-          userData.check(event);
-          users.push(userData);
-          return;
-      }
-}
 function _getStatus() {
   // clearTimeout(timer);
   getJSON('https://XXX.XXX.airXb.io/api/v1/sensors/sensorD/2018-12-09/helmet', function (error, response, endstatus) {
@@ -202,10 +190,21 @@ var replyMsg = '';
 var aaa = 0;
 var vv = '';
 console.log(event);
-
 event.source.profile().then(function (profile) {   //Loading Firebase message json for reply.
   user = profile.displayName;
-  if (requestMessage == "注意事項") {
+  let requestMessage = event.message.text;
+  let lineid = event.source.userId;
+  let data = find(users, "userid", lineid);
+  if (data) {
+      data[0].check(event);
+  } else {
+  if (requestMessage.indexOf("我要報名") >= 0) {
+          var userData = new UserData(lineid);
+          userData.check(event);
+          users.push(userData);
+          return;
+      }
+  else if (requestMessage == "注意事項") {
     bot.push(lineid, "1.注意掉落物\n2.留意腳邊障礙物\n3.配戴安全帽、安全護目鏡及安全手套\n4.物品不可任意堆置、通道要保持流通");
     console.log(user);
   }
@@ -233,7 +232,7 @@ else if (requestMessage == "移除使用者"){
   else {
      bot.push(lineid, "無此使用者ID：" + (user));
   }
-}
+  }
   else if (requestMessage == "天氣資訊") {
     bot.push(
       lineid,
@@ -333,7 +332,7 @@ else if (requestMessage == "移除使用者"){
   }
 
   
-});//Loading Firebase message json for reply.
+}});//Loading Firebase message json for reply.
 });
 
 const app = express();

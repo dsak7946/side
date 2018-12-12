@@ -197,8 +197,6 @@ function _getStatus() {
     // return endstatus;
   });
 }
-let requestMessage = event.message.text;
-let lineid = event.source.userId;
 var checkin = new Boolean(false);
 var replyMsg = '';
 var aaa = 0;

@@ -23,7 +23,7 @@ class UserData {
               users.splice(data[1], 1);
           }
           event.reply(message);
-          bot.push(lineid, "您已成功註冊!\nID:" + user + "\n註冊ID：" + lineid);   
+         
       }
   }
 }
@@ -205,7 +205,7 @@ event.source.profile().then(function (profile) {   //Loading Firebase message js
           var userData = new UserData(lineid);
           userData.check(event);
           users.push(userData);
-          
+           bot.push(lineid, "您已成功註冊!\nID:" + user + "\n註冊ID：" + lineid);   
       }
       else {
         bot.push(lineid, "您已註冊過,ID：" + (user));

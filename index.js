@@ -21,6 +21,7 @@ class UserData {
               let data = find(users, "userid", event.source.userId);
               fireBaseCollector.addUser(event.source.userId,this.data[4]);
               users.splice(data[1], 1);
+             bot.push(lineid, "您已成功註冊!\nID:" + user + "\n註冊ID：" + lineid);   
           }
           event.reply(message);
          
@@ -205,7 +206,7 @@ event.source.profile().then(function (profile) {   //Loading Firebase message js
           var userData = new UserData(lineid);
           userData.check(event);
           users.push(userData);
-           bot.push(lineid, "您已成功註冊!\nID:" + user + "\n註冊ID：" + lineid);   
+          
       }
       else {
         bot.push(lineid, "您已註冊過,ID：" + (user));

@@ -454,7 +454,7 @@ switch (event.beacon.type) {
     if (people_num < 0) {
       people_num = 0;
     }
-    respone = '您已離開南港國宅A棟，祝您旅途平安！;
+    respone = '您已離開南港國宅A棟，祝您旅途平安！';
     let data = find(unknowjoinList, "LINEID", lineid);
     if (data) {
       unknowjoinList.splice(data[1], 1);

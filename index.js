@@ -429,7 +429,7 @@ var respone;
 switch (event.beacon.type) {
   case 'enter':
     people_num++;
-    respone = '歡迎回到南港國宅A棟社區 當前人數共有:' + (people_num)+'人˙';
+    respone = '你進入教室 當前人數:' + (people_num);
     let user = fireBaseCollector.userEnter(lineid);
     // console.log("user : " + !!user);
     if (user) {
@@ -454,7 +454,7 @@ switch (event.beacon.type) {
     if (people_num < 0) {
       people_num = 0;
     }
-    respone = '您已離開南港國宅A棟，祝您旅途平安！';
+    respone = '你離開教室 當前人數:' + (people_num);
     let data = find(unknowjoinList, "LINEID", lineid);
     if (data) {
       unknowjoinList.splice(data[1], 1);
@@ -466,6 +466,7 @@ switch (event.beacon.type) {
     fireBaseCollector.userLeave(lineid);
     broadcast("online", { TYPE: "REMOVE", LINEID: lineid })
     break;
+
   default:
     respone = '我壞掉了';
 }

@@ -171,7 +171,6 @@ function _getStatus() {
     else {
       go = '異常';
     }
-
     var Temperatures = response.results['0000000012345691']['temperatures'];
     var TemperatureslastOne = Temperatures[Temperatures.length - 1];
     var temperaturee = TemperatureslastOne.temperature;

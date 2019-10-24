@@ -466,7 +466,6 @@ switch (event.beacon.type) {
     fireBaseCollector.userLeave(lineid);
     broadcast("online", { TYPE: "REMOVE", LINEID: lineid })
     break;
-
   default:
     respone = '我壞掉了';
 }

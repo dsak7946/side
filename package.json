@@ -5,6 +5,9 @@
   "scripts": {
     "start": "node index.js"
   },
+   "engines": {
+    "node": "10.11.0"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

@@ -326,9 +326,9 @@ bot.on('message', function (event) {
       _getStatus();
     }
 	 else if (requestMessage == "南港國宅氣爆") {
-		"type": "image",
-		"originalContentUrl": "https://cdn2.ettoday.net/images/4413/d4413199.jpg",
-		"previewImageUrl": "https://cdn2.ettoday.net/images/4413/d4413203.jpg"
+		type: "image",
+		originalContentUrl: "https://cdn2.ettoday.net/images/4413/d4413199.jpg",
+		previewImageUrl: "https://cdn2.ettoday.net/images/4413/d4413203.jpg"
     }
     else if (requestMessage == "所在位置") {
       bot.push(lineid, JustGps);

@@ -337,6 +337,15 @@ else if (requestMessage == "移除使用者"){
   else if (requestMessage == "所在位置") {
     bot.push(lineid, JustGps);
   }
+   else if (requestMessage == "南港國宅氣爆案") {
+     "type": "uri",
+    "linkUri": "https://news.ltn.com.tw/news/society/breakingnews/2935656",
+    "area": {
+    "x": 0,
+    "y": 0,
+    "width": 520,
+    "height": 1040
+  }
   else {
     bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");
   }

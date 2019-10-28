@@ -341,13 +341,13 @@ else if (requestMessage == "移除使用者"){
   else if (requestMessage == "南港國宅氣爆案") {
     bot.push(lineid,
    {
-  "type": "uri",
-  "linkUri": "https://www.kamigo.tw/",
-  "area": {
-    "x": 0,
-    "y": 0,
-    "width": 520,
-    "height": 1040
+  type: 'uri',
+  linkUri: 'https://www.kamigo.tw/',
+  area: {
+    x: 0,
+    y: 0,
+    width: 520,
+    height: 1040
   }
 })
   }

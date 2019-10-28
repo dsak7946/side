@@ -147,8 +147,8 @@ var JustGps = {
 "longitude": 121.5070476
 }
 var news =  {
-  "type": "uri",
-  "linkUri": "https://news.ltn.com.tw/news/society/breakingnews/2935656",
+  "type": "url",
+  "linkUrl": "https://news.ltn.com.tw/news/society/breakingnews/2935656",
   "area": {
     "x": 0,
     "y": 0,

@@ -148,7 +148,7 @@ var JustGps = {
 }
 var news =  {
   "type": "url",
-  "linkUrl": "https://news.ltn.com.tw/news/society/breakingnews/2935656",
+  "linkUrl": 'https://news.ltn.com.tw/news/society/breakingnews/2935656',
   "area": {
     "x": 0,
     "y": 0,

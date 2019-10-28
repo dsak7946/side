@@ -148,7 +148,7 @@ var JustGps = {
 }
 var news =  {
   "type": "uri",
-  "linkUri": "https://www.kamigo.tw/",
+  "linkUri": "https://news.ltn.com.tw/news/society/breakingnews/2935656",
   "area": {
     "x": 0,
     "y": 0,
@@ -348,7 +348,7 @@ else if (requestMessage == "移除使用者"){
     bot.push(lineid, JustGps);
   }
   else if (requestMessage == "南港國宅氣爆案") {
-    bot.push(lineid,news);
+    bot.push(lineid, news);
   }
   else {
     bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");

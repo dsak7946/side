@@ -349,13 +349,8 @@ else if (requestMessage == "移除使用者"){
     bot.push(lineid, JustGps);
   }
   else if (requestMessage == "南港國宅氣爆案") {
-    bot.push(lineid,message = {  
-  "type":"uri",
-  "label":"南港國宅氣爆",
-  "uri":"https://udn.com/news/story/7320/4084756"
-}
-)
-  }
+    bot.push(lineid,"https://udn.com/news/story/7320/4084756"
+)}
   else {
     bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");
   }

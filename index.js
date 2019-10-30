@@ -147,13 +147,13 @@ var JustGps = {
 "longitude": 121.5070476
 }
 var news = {
-  "type": "uri",
-  "linkUri": "https://www.kamigo.tw/",
-  "area": {
-    "x": 0,
-    "y": 0,
-    "width": 520,
-    "height": 1040
+  type: "uri",
+  linkUri: "https://www.kamigo.tw/",
+  area: {
+    x: 0,
+    y: 0,
+    width: 520,
+    height: 1040
   }
 }
 

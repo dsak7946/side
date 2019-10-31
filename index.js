@@ -349,7 +349,17 @@ else if (requestMessage == "移除使用者"){
     bot.push(lineid, JustGps);
   }
   else if (requestMessage == "南港國宅氣爆案") {
-    bot.push(lineid,"https://udn.com/news/story/7320/4084756"
+    bot.push(lineid,{  
+   "type":"uri",
+   "label":"南港國宅氣爆案件",
+   "linkUri":"https://news.ltn.com.tw/news/society/breakingnews/2935656",
+   "area":{  
+      "x":0,
+      "y":0,
+      "width":520,
+      "height":1040
+   }
+}
 )}
   else {
     bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");
@@ -443,7 +453,7 @@ var respone;
 switch (event.beacon.type) {
   case 'enter':
     people_num++;
-    respone = '歡迎回到南港國宅A棟社區 當前人數共有:' + (people_num)+'人';
+    bot.push(lineid, "歡迎回到南港國宅A棟社區 當前人數共有:" + (people_num)+"人";);
     let user = fireBaseCollector.userEnter(lineid);
     // console.log("user : " + !!user);
     if (user) {

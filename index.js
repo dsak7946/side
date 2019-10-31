@@ -443,7 +443,7 @@ var respone;
 switch (event.beacon.type) {
   case 'enter':
     people_num++;
-    bot.push(lineid, "歡迎回到南港國宅A棟社區 當前人數共有:" + (people_num)+"人";);
+    bot.push(lineid, "歡迎回到南港國宅A棟社區 當前人數共有:" + (people_num)+"人");
     let user = fireBaseCollector.userEnter(lineid);
     // console.log("user : " + !!user);
     if (user) {

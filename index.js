@@ -148,14 +148,14 @@ var JustGps = {
 }
 var news =
     message={  
-   "type":"uri",
-   "label":"南港國宅氣爆案件",
-   "linkUri":"https://news.ltn.com.tw/news/society/breakingnews/2935656",
-   "area":{  
-      "x":0,
-      "y":0,
-      "width":520,
-      "height":1040
+   type:uri,
+   label:南港國宅氣爆案件,
+   linkUri:https://news.ltn.com.tw/news/society/breakingnews/2935656,
+   area:{  
+      x:0,
+      y:0,
+      width:520,
+      height:1040
    }
 }
 bot.on('message', function (event) {

@@ -350,6 +350,7 @@ else if (requestMessage == "移除使用者"){
   }
   else if (requestMessage == "南港國宅氣爆案") {
     bot.push(lineid,news);
+    console.log(news);
   }
   else {
     bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");

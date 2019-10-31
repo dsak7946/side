@@ -146,7 +146,8 @@ var JustGps = {
 "latitude": 24.9534475,
 "longitude": 121.5070476
 }
-var news ={  
+var news =
+    message={  
    "type":"uri",
    "label":"南港國宅氣爆案件",
    "linkUri":"https://news.ltn.com.tw/news/society/breakingnews/2935656",

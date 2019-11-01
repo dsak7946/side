@@ -146,18 +146,6 @@ var JustGps = {
 "latitude": 24.9534475,
 "longitude": 121.5070476
 }
-var news =
-    message={  
-   type:'uri',
-   label:'南港國宅氣爆案件',
-   linkUri:'https://news.ltn.com.tw/news/society/breakingnews/2935656',
-   area:{  
-      x:0,
-      y:0,
-      width:520,
-      height:1040
-   }
-}
 bot.on('message', function (event) {
 function _getStatus() {
   // clearTimeout(timer);
@@ -350,8 +338,7 @@ else if (requestMessage == "移除使用者"){
     bot.push(lineid, JustGps);
   }
   else if (requestMessage == "南港國宅氣爆案") {
-    bot.push(lineid,news);
-    console.log(news);
+    bot.push(lineid,'https://news.ltn.com.tw/news/society/breakingnews/2935656');
   }
   else {
     bot.push(lineid, "我看不懂你說的[ " + requestMessage + " ]");

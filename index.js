@@ -222,15 +222,15 @@ event.source.profile().then(function (profile) {   //Loading Firebase message js
     while(no>6){
       let no='0'
       switch(no){
-   case"no=0"
+   case"no=0":
       bot.push(lineid,news1);
        no=no+1;
        break;
-   case"no=1"
+   case"no=1":
       bot.push(lineid,news2);
       no=no+1; 
       break;
-   case"no=2"
+   case"no=2":
       bot.push(lineid,news5);
       no=no+1;
      break;

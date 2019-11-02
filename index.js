@@ -219,9 +219,6 @@ event.source.profile().then(function (profile) {   //Loading Firebase message js
           return;
       }
   else  if (requestMessage == "氣爆注意事項") {
-      bot.push(lineid,news1);
-
-      bot.push(lineid,news2);
 
       bot.push(lineid,news5);
 

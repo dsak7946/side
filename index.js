@@ -196,7 +196,7 @@ var news2 ="二、使用瓦斯器具時\n1.鍋內煮湯或燒開水時，不要�
 
 
 var news5 =("五、其他注意事項\n1.使用合格之瓦斯器具及鋼瓶。\n2.檢查瓦斯容器有無容器檢驗卡、容器是否逾期未檢。\n3.經常檢查瓦斯開關、橡皮管等，有無鬆動、破損。\n4.出遠門時，或睡覺前，牢記關瓦斯開關。\n5.使用瓦斯時，人不可遠離，萬一失火始可迅速發現，及時搶救。\n6.煮湯或燒水時，不要裝太滿，以免火被溢出的湯、水澆熄，而產生漏氣。\n7.已用完液化石油氣之空瓶，應注意將瓶上開關關閉，以免瓶內殘餘液體流出，引起危險。")
-
+var no=""
 console.log(event);
 event.source.profile().then(function (profile) {   //Loading Firebase message json for reply.
   user = profile.displayName;
@@ -221,10 +221,18 @@ event.source.profile().then(function (profile) {   //Loading Firebase message js
           return;
       }
   else  if (requestMessage == "氣爆注意事項") {
+      if(no=0){
       bot.push(lineid,news1);
+       no++;
+      }
+   else if (no=1){
       bot.push(lineid,news2);
-      bot.push(lineid,news5);
+      no++;  
     }
+    else if(no=2){
+      bot.push(lineid,news5);
+      no++
+    }}
   else if (requestMessage == "當前人數") {
     bot.push(lineid, "目前有" + (people_num) + "人");
   }

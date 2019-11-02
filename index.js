@@ -225,14 +225,16 @@ event.source.profile().then(function (profile) {   //Loading Firebase message js
       bot.push(lineid,news1);
        no++;
       }
-   else if (no=1){
+    else if (no=1){
       bot.push(lineid,news2);
       no++;  
     }
     else if(no=2){
       bot.push(lineid,news5);
-      no++
-    }}
+      no++;
+    }
+    console.log(bot.push)
+  }
   else if (requestMessage == "當前人數") {
     bot.push(lineid, "目前有" + (people_num) + "人");
   }
